@@ -15,8 +15,13 @@ STEVE_MAC= "1c-1a-c0-22-23-e7"
 emmaIp = ""
 steveIp = ""
 
-stevePresent = ""
-emmaPresent = ""
+stevePresent = False
+emmaPresent = False
+
+emmaThreshold = 300
+steveThreshold = 300
+
+commsout = ""
 
 def mainLoop():
 	while True:
@@ -28,9 +33,30 @@ def mainLoop():
 		(out, err) = subprocess.Popen(["fping -m -g 192.168.1.1 192.168.1.10"], stdout=subprocess.PIPE, shell=True).communicate()
 		for (ow in out.split("\n"):
 			if row.find(emmaIp) > 1 and row.find("alive") > 1:
-				
-	
-	
+				emmaPresent = True
+				if stevePresent:
+					break
+			if row.find(steveIp) > 1 and row.find("alive") > 1:
+				stevePresent = True
+				if emmaPresent:
+					break
+		if stevePresent:
+			steveThreshold = 300
+		else if steveThreshold-- < 0:
+			commsout = "STEVE GONE"
+			steveThreshold = 300
+		else:
+			steveIp = getIpFromMac(STEVE_MAC)
+		
+		if emmaPresent:
+			emmaThreshold = 300
+		else if emmaThreshold-- < 0:
+			commsout = "EMMA GONE"
+			emmaThreshold = 300
+		else:
+			emma = getIpFromMac(EMMA_MAC)
+			
+			
 
 	
 	
