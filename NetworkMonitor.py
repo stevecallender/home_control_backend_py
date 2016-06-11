@@ -31,7 +31,7 @@ def mainLoop():
 		emmaIp = getIpFromMac(EMMA_MAC)
 		steveIp = getIpFromMac(STEVE_MAC)
 		(out, err) = subprocess.Popen(["fping -m -g 192.168.1.1 192.168.1.10"], stdout=subprocess.PIPE, shell=True).communicate()
-		for (ow in out.split("\n"):
+		for row in out.split("\n"):
 			if row.find(emmaIp) > 1 and row.find("alive") > 1:
 				emmaPresent = True
 				if stevePresent:
