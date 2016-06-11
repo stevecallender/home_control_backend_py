@@ -42,7 +42,7 @@ def mainLoop():
 					break
 		if stevePresent:
 			steveThreshold = 300
-		else if steveThreshold-- < 0:
+		elif --steveThreshold < 0:
 			commsout = "STEVE GONE"
 			steveThreshold = 300
 		else:
@@ -50,7 +50,7 @@ def mainLoop():
 		
 		if emmaPresent:
 			emmaThreshold = 300
-		else if emmaThreshold-- < 0:
+		elif --emmaThreshold < 0:
 			commsout = "EMMA GONE"
 			emmaThreshold = 300
 		else:
@@ -74,4 +74,4 @@ def getIpFromMac(macAddress):
 	
 
 	
-getIpFromMac("1c-1a-c0-22-23-e7")
+mainLoop()
