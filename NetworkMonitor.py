@@ -15,8 +15,8 @@ class NetworkMonitor(Caster):
 
 	def run(self):
 	
-		EMMA_MAC = "b4-18-d1-d3-35-4e"
-		STEVE_MAC= "1c-1a-c0-22-23-e7"
+		EMMA_MAC = "b4:18:d1:d3:35:4e"
+		STEVE_MAC= "1c:1a:c0:22:23:e7"
 
 		emmaIp = ""
 		steveIp = ""
@@ -33,13 +33,16 @@ class NetworkMonitor(Caster):
 			steveIp = self.getIpFromMac(STEVE_MAC)
 			(out, err) = subprocess.Popen(["fping -m -g 192.168.1.1 192.168.1.10"], stdout=subprocess.PIPE, shell=True).communicate()
 			for row in out.split("\n"):
-				if row.find(emmaIp) > 1 and row.find("alive") > 1:
+				print "ROW " + row
+				if row.find(emmaIp) > -1 and row.find("alive") > -1:
+					print "Emma ip " +emmaIp
+					print "Lookign for alive"  + str(row.find("alive"))
 					if not emmaPresent:
 						self.cast("emma joined")
 						emmaPresent = True
 					if stevePresent:
 						break
-				if row.find(steveIp) > 1 and row.find("alive") > 1:
+				if row.find(steveIp) > -1 and row.find("alive") > -1:
 					if not stevePresent:
 						self.cast("steve joined")
 						stevePresent = True
@@ -65,15 +68,15 @@ class NetworkMonitor(Caster):
 
 	def getIpFromMac(self,macAddress):
 
-		(out, err) = subprocess.Popen(["arp -a"], stdout=subprocess.PIPE, shell=True).communicate()
+		(out, err) = subprocess.Popen(["arp -an"], stdout=subprocess.PIPE, shell=True).communicate()
 		index = out.find(macAddress)
-		print index
 		if (index > -1):
 			substring = out[0:index]
-			splitarray = substring.split("\n")
-			return splitarray[-1].replace(" ","")
+			ipLine = substring.split("\n")[-1]
+			ip = ipLine.split("(")[-1].split(")")[0]
+			return ip
 		
-		return ""
+		return "NO_IP"
 		
 
 if __name__ == "__main__":

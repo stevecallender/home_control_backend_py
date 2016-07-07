@@ -23,18 +23,23 @@ class HomeController(Seizer,Caster):
 	def handleTimeUpdate(self,payload):
 		if payload == "weekday morning":
 			if not shouldReact:
-				self.castWithHeader("MediaCommand","playPlaylist morning")
+				self.castWithHeader("MediaCommand","playPlaylist playPlaylist Your\ Coffee\ Break\ \(by \ spotify_uk_\) ")
 				self.shouldReact = True
-				
+		
+		elif payload == "weekend morning":
+			if not shouldReact:
+				self.castWithHeader("MediaCommand","playPlaylist The\ Great\ British\ Breakfast\ \(by\ spotify_uk_\)")
+				self.shouldReact = True
+						
 		elif payload == "weekday afternoon":
 			if self.emmaAtHome or self.steveAtHome:
 				self.shouldReact = True
 			else:
 				self.castWithHeader("MediaCommand","pause")
+				self.shouldReact = True
 				
 		elif payload == "weekday evening":
 			if not shouldReact:
-				self.castWithHeader("MediaCommand","playPlaylist evening")
 				self.shouldReact = True
 				
 		elif payload == "weekday night":
@@ -49,14 +54,14 @@ class HomeController(Seizer,Caster):
 			self.castWithHeader("MediaCommand", "greeting steve")
 			self.steveAtHome = True
 			if self.shouldReact:
-				self.castWithHeader("MediaCommand","playPlaylist morning")
+				self.castWithHeader("MediaCommand","playPlaylist Spoon\ City\ Bitch \(by\ stevecallender\)")
 				self.shouldReact = False
 		
 		elif payload == "emma joined":
 			self.castWithHeader("MediaCommand", "greeting emma")
 			self.emmaAtHome = True
 			if self.shouldReact:
-				self.castWithHeader("MediaCommand","playPlaylist morning")
+				self.castWithHeader("MediaCommand","playPlaylist Spoon\ City\ Bitch \(by\ stevecallender\)")
 				self.shouldReact = False
 		
 		if payload == "steve left":
