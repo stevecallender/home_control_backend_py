@@ -23,52 +23,52 @@ class HomeController(Seizer,Caster):
 	def handleTimeUpdate(self,payload):
 		if payload == "weekday morning":
 			if not shouldReact:
-				self.cast("MediaCommand","playPlaylist morning")
+				self.castWithHeader("MediaCommand","playPlaylist morning")
 				self.shouldReact = True
 				
 		elif payload == "weekday afternoon":
 			if self.emmaAtHome or self.steveAtHome:
 				self.shouldReact = True
 			else:
-				self.cast("MediaCommand","pause")
+				self.castWithHeader("MediaCommand","pause")
 				
 		elif payload == "weekday evening":
 			if not shouldReact:
-				self.cast("MediaCommand","playPlaylist evening")
+				self.castWithHeader("MediaCommand","playPlaylist evening")
 				self.shouldReact = True
 				
 		elif payload == "weekday night":
 			if shouldReact:
-				self.cast("MediaCommand","pause")
+				self.castWithHeader("MediaCommand","pause")
 				self.shouldReact = False
 
 	
 	def handleNetworkUpdate(self,payload):
 
 		if payload == "steve joined":
-			self.cast("MediaCommand", "greeting steve")
+			self.castWithHeader("MediaCommand", "greeting steve")
 			self.steveAtHome = True
 			if self.shouldReact:
-				self.cast("MediaCommand","playPlaylist morning")
+				self.castWithHeader("MediaCommand","playPlaylist morning")
 				self.shouldReact = False
 		
 		elif payload == "emma joined":
-			self.cast("MediaCommand", "greeting emma")
+			self.castWithHeader("MediaCommand", "greeting emma")
 			self.emmaAtHome = True
 			if self.shouldReact:
-				self.cast("MediaCommand","playPlaylist morning")
+				self.castWithHeader("MediaCommand","playPlaylist morning")
 				self.shouldReact = False
 		
 		if payload == "steve left":
 			self.steveAtHome = False
 			if not self.emmaAtHome:
-				self.cast("MediaCommand","pause")
+				self.castWithHeader("MediaCommand","pause")
 				self.shouldReact = True
 		
 		elif payload == "emma left":
 			self.emmaAtHome = False
 			if not self.steveAtHome:
-				self.cast("MediaCommand","pause")
+				self.castWithHeader("MediaCommand","pause")
 				self.shouldReact = True
 		
 
