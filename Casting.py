@@ -27,4 +27,5 @@ class Caster(object):
 		self.publisher.send_multipart([self.identifier, message])
 	
 	def castWithHeader(self,header,message):
+		print "Casting message: " + message
 		self.publisher.send_multipart([header, message])

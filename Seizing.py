@@ -31,6 +31,8 @@ class Seizer(object):
 				[address, contents] = self.subscriber.recv_multipart(flags=zmq.NOBLOCK)
 			except:
 				pass #no message to seize - no problem
+		print "Seizing message: "+contents
 		return [address,contents]
+
 			
 

@@ -28,17 +28,17 @@ class TestDriver(Caster,Seizer):
 			ip = input()
 			print ip
 			if ip == 1:
-				self.cast("NetworkUpdate",self.test_steveArrival)
+				self.castWithHeader("NetworkUpdate",self.test_steveArrival)
 			elif ip == 2:
-				self.cast("NetworkUpdate",self.test_emmaArrival)
+				self.castWithHeader("NetworkUpdate",self.test_emmaArrival)
 			elif ip == 3:
-				self.cast("TimeUpdate",self.test_weekdayMorning)
+				self.castWithHeader("TimeUpdate",self.test_weekdayMorning)
 			elif ip == 4:
-				self.cast("TimeUpdate",self.test_weekdayAfternoon)
+				self.castWithHeader("TimeUpdate",self.test_weekdayAfternoon)
 			elif ip == 5:
-				self.cast("TimeUpdate",self.test_weekdayEvening)
+				self.castWithHeader("TimeUpdate",self.test_weekdayEvening)
 			elif ip == 6:
-				self.cast("TimeUpdate",self.test_weekdayNight)
+				self.castWithHeader("TimeUpdate",self.test_weekdayNight)
 			
 			[header, payload] = self.seize()
 			
