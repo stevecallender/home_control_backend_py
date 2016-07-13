@@ -10,10 +10,14 @@ class Seizer(object):
 		self.subscriber.connect("tcp://localhost:5560")
 		self.subscriber.connect("tcp://localhost:5561")
 		self.subscriber.connect("tcp://localhost:5562")
-		self.subscriber.connect("tcp://localhost:5563")
-		self.subscriber.connect("tcp://localhost:5563")
-		self.subscriber.connect("tcp://localhost:5564")
-		self.subscriber.connect("tcp://localhost:5565")
+		self.subscriber.connect("tcp://192.168.1.26:5560")
+                self.subscriber.connect("tcp://192.168.1.26:5561")
+                self.subscriber.connect("tcp://192.168.1.26:5562")
+		self.subscriber.connect("tcp://192.168.1.15:5560")
+                self.subscriber.connect("tcp://192.168.1.15:5561")
+                self.subscriber.connect("tcp://192.168.1.15:5562")
+
+
 		
 		for id in self.identifiers:
 			self.subscriber.setsockopt(zmq.SUBSCRIBE, id)

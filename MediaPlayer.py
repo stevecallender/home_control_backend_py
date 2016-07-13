@@ -59,7 +59,7 @@ class MediaPlayer(Seizer,Caster):
 	def parseCommand(self, command):
 		if command == "play":
 			self.play()
-		if command.split(" ")[0] == "playPlaylist"
+		if command.split(" ")[0] == "playPlaylist":
 			self.playPlaylist(command.split(" ",1)[-1])
 		if command == "pause":
 			self.pause()
@@ -76,3 +76,6 @@ class MediaPlayer(Seizer,Caster):
 			
 			
 			
+if __name__ == "__main__":
+	mediaPlayer = MediaPlayer()
+	mediaPlayer.run()
