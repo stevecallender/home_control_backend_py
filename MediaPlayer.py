@@ -26,7 +26,9 @@ class MediaPlayer(Seizer,Caster):
 	def playPlaylist(self,playlist):
 		if not self.isPlaying :
 			(out, err) = subprocess.Popen(["mpc clear"], stdout=subprocess.PIPE, shell=True).communicate()
+			time.sleep(1)
 			(out, err) = subprocess.Popen(["mpc load " + playlist], stdout=subprocess.PIPE, shell=True).communicate()
+			time.sleep(1)
 			(out, err) = subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.isPlaying  = True
 	
@@ -35,6 +37,7 @@ class MediaPlayer(Seizer,Caster):
 			(out, err) = subprocess.Popen(["mpc next"], stdout=subprocess.PIPE, shell=True).communicate()
 		else:
 			(out, err) = subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
+			time.sleep(1)
 			(out, err) = subprocess.Popen(["mpc next"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.isPlaying   = True
 	
@@ -43,6 +46,7 @@ class MediaPlayer(Seizer,Caster):
 			(out, err) = subprocess.Popen(["mpc prev"], stdout=subprocess.PIPE, shell=True).communicate()
 		else:
 			(out, err) = subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
+			time.sleep(1)
 			(out, err) = subprocess.Popen(["mpc prev"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.isPlaying   = True
 	
@@ -71,7 +75,7 @@ class MediaPlayer(Seizer,Caster):
 			self.parseCommand(payload) 
 			(out, err) = subprocess.Popen(["mpc current"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.handlePlayInfo(out)
-			
+			time.sleep(1)
 			
 			
 			
