@@ -54,14 +54,14 @@ class HomeController(Seizer,Caster):
 			self.castWithHeader("MediaCommand", "greeting steve")
 			self.steveAtHome = True
 			if self.shouldReact:
-				self.castWithHeader("MediaCommand","playPlaylist Spoon\ City\ Bitch \(by\ stevecallender\)")
+				self.castWithHeader("MediaCommand","playPlaylist Spoon\ City\ Bitch\ \(by\ stevecallender\)")
 				self.shouldReact = False
 		
 		elif payload == "emma joined":
 			self.castWithHeader("MediaCommand", "greeting emma")
 			self.emmaAtHome = True
 			if self.shouldReact:
-				self.castWithHeader("MediaCommand","playPlaylist Spoon\ City\ Bitch \(by\ stevecallender\)")
+				self.castWithHeader("MediaCommand","playPlaylist Spoon\ City\ Bitch\ \(by\ stevecallender\)")
 				self.shouldReact = False
 		
 		if payload == "steve left":
@@ -78,8 +78,8 @@ class HomeController(Seizer,Caster):
 		
 
 	
-	def handleMediaUpdate(payload):
-		print "currently unsupported"
+	def handleMediaUpdate(self,payload):
+		print payload
 		
 	
 	def run(self):
