@@ -79,7 +79,7 @@ class HomeController(Seizer,Caster):
 
 	
 	def handleMediaUpdate(self,payload):
-		print payload
+		self.cast("1"+payload);
 		
 	
 	def run(self):
