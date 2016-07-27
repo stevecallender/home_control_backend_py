@@ -7,15 +7,12 @@ class Seizer(object):
 		self.identifiers = identifiers
 		context         = zmq.Context()
 		self.subscriber = context.socket(zmq.SUB)
-		self.subscriber.connect("tcp://localhost:5560")
-		self.subscriber.connect("tcp://localhost:5561")
-		self.subscriber.connect("tcp://localhost:5562")
-		self.subscriber.connect("tcp://192.168.1.26:5560")
-                self.subscriber.connect("tcp://192.168.1.26:5561")
-                self.subscriber.connect("tcp://192.168.1.26:5562")
-		self.subscriber.connect("tcp://192.168.1.15:5560")
-                self.subscriber.connect("tcp://192.168.1.15:5561")
-                self.subscriber.connect("tcp://192.168.1.15:5562")
+		portList = ["5560","5561","5562","5563","5564","5565"]
+		
+		for port in portList:
+			self.subscriber.connect("tcp://localhost:"+port)
+			self.subscriber.connect("tcp://192.168.1.26:"+port)
+			self.subscriber.connect("tcp://192.168.1.15:"+port)
 
 
 		

@@ -8,7 +8,7 @@ class Caster(object):
 		context         = zmq.Context()
 		self.publisher  = context.socket(zmq.PUB)
 		
-		portList = ["5560","5561","5562"]
+		portList = ["5560","5561","5562","5563","5564","5565"]
 		portIndex = 0
 		conneted = False
 		while not conneted:
