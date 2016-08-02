@@ -28,9 +28,9 @@ class TimeMonitor(Caster):
 				elif currentTime.hour >= 12 and currentTime.hour <= 17:
 					self.cast("weekday afternoon")
 				elif currentTime.hour >= 18 and currentTime.hour <= 22:
-					self.cast("weekend evening")
+					self.cast("weekday evening")
 				else:
-					self.cast("weekend night")
+					self.cast("weekday night")
 			time.sleep(50)
 			
 if __name__ == "__main__":
