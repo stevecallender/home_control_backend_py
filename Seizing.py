@@ -11,8 +11,8 @@ class Seizer(object):
 		
 		for port in portList:
 			self.subscriber.connect("tcp://localhost:"+port)
-			self.subscriber.connect("tcp://192.168.1.26:"+port)
-			self.subscriber.connect("tcp://192.168.1.15:"+port)
+			self.subscriber.connect("tcp://192.168.1.8:"+port)
+			self.subscriber.connect("tcp://192.168.1.1:"+port)
 
 
 		
