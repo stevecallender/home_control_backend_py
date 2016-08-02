@@ -23,7 +23,7 @@ class HomeController(Seizer,Caster):
 	def handleTimeUpdate(self,payload):
 		if payload == "weekday morning":
 			if not self.shouldReact:
-				self.castWithHeader("MediaCommand","playPlaylist playPlaylist Your\ Coffee\ Break\ \(by\ spotify_uk_\) ")
+				self.castWithHeader("MediaCommand","playPlaylist playPlaylist Your\ Coffee\ Break\ \(by\ spotify_uk_\)")
 				self.shouldReact = True
 		
 		elif payload == "weekend morning":

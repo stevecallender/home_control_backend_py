@@ -31,7 +31,7 @@ class TimeMonitor(Caster):
 					self.cast("weekend evening")
 				else:
 					self.cast("weekend night")
-			time.sleep(1)
+			time.sleep(50)
 			
 if __name__ == "__main__":
 	timeMonitor = TimeMonitor()
