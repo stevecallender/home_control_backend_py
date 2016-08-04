@@ -77,11 +77,7 @@ class HomeController(Seizer,Caster):
 				self.shouldReact = True
 		
 
-	
-	def handleMediaUpdate(self,payload):
-		self.cast("1"+payload);
-		
-	
+
 	def run(self):
 		while True:
 			[header, payload] = self.seize()
@@ -89,8 +85,7 @@ class HomeController(Seizer,Caster):
 				self.handleTimeUpdate(payload)
 			elif header == "NetworkUpdate":
 				self.handleNetworkUpdate(payload)
-			elif header == "MediaInfo":
-				self.handleMediaUpdate(payload)
+			
 				
 				
 if __name__ == "__main__":
