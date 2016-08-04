@@ -73,6 +73,10 @@ class MediaPlayer(Seizer,Caster):
 			self.playPlaylist(command.split(" ",1)[-1])
 		if command == "pause":
 			self.pause()
+		if command == "next":
+			self.next()
+		if command == "prev":
+			self.prev
 			
 			
 	def run(self):
