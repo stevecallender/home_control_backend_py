@@ -13,6 +13,7 @@ class TimeMonitor(Caster):
 	def run(self):
 		while True:
 			currentTime = datetime.datetime.now()
+			# WEEKEND
 			if currentTime.isoweekday() == 6 or currentTime.isoweekday() == 7:
 				if currentTime.hour >= 10 and currentTime.hour <= 13:
 					self.cast("weekend morning")
@@ -22,12 +23,13 @@ class TimeMonitor(Caster):
 					self.cast("weekend evening")
 				else:
 					self.cast("weekend night")
+			# WEEKDAY
 			else:
 				if currentTime.hour >= 6 and currentTime.hour <= 11:
 					self.cast("weekday morning")
 				elif currentTime.hour >= 12 and currentTime.hour <= 17:
 					self.cast("weekday afternoon")
-				elif currentTime.hour >= 18 and currentTime.hour <= 22:
+				elif currentTime.hour >= 18 and currentTime.hour <= 21:
 					self.cast("weekday evening")
 				else:
 					self.cast("weekday night")
