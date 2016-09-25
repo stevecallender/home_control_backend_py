@@ -48,9 +48,14 @@ class HomeController(Seizer,Caster):
 				self.shouldReact = True
 				
 		elif payload == "weekday night":
-			if self.shouldReact:
-				self.castWithHeader("MediaCommand","pause")
-				self.shouldReact = False
+			self.castWithHeader("MediaCommand","pause")
+			self.castWithHeader("LightsCommand","allOff")
+			self.shouldReact = False
+		
+		elif payload == "weekend night":
+			self.castWithHeader("MediaCommand","pause")
+			self.castWithHeader("LightsCommand","allOff")
+			self.shouldReact = False
 
 	
 	def handleNetworkUpdate(self,payload):

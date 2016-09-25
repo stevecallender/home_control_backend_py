@@ -5,11 +5,10 @@ class PlugDriver(Seizer):
 
 	def __init__(self):
 
-		interestedIdentifiers = ["LightsCommand"]
-		Seizer.__init__(self,interestedIdentifiers)
+		Seizer.__init__(self,"LightsCommand")
 		self.allLights = Energenie(1)
 
-	def handleLightsCommand(self, command):
+	def handleLightsCommand(self, header):
 		if header == "allOn":
 			self.allLights.on()
 		elif header == "allOff":
@@ -21,6 +20,11 @@ class PlugDriver(Seizer):
 		while True:
 			[header, payload] = self.seize()
 			if header == "LightsCommand":
-				self.handleTimeUpdate(payload)
+				self.handleLightsCommand(payload)
 			else:
 				print "Unrecognised header"
+
+
+if __name__ == "__main__":
+        plugDriver = PlugDriver()
+        plugDriver.run()
