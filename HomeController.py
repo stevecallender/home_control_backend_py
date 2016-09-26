@@ -19,38 +19,49 @@ class HomeController(Seizer,Caster):
 		self.emmaAtHome  = False
 		
 		self.shouldReact = False
+		self.lastTimeUpdate = ""
 	
 	def handleTimeUpdate(self,payload):
+
+		#this will ensure that each time update only occurs once
+		if payload == self.lastTimeUpdate:
+			return
+
+		#if we get to here then it is a new time update
+		self.lastTimeUpdate = payload
+
 		if payload == "weekday morning":
-			if not self.shouldReact:
-				self.castWithHeader("MediaCommand","playPlaylist Your\ Coffee\ Break\ \(by\ spotify_uk_\)")
-				self.castWithHeader("LightsCommand","allOn")
-				self.shouldReact = True
+			self.castWithHeader("MediaCommand","playPlaylist Your\ Coffee\ Break\ \(by\ spotify_uk_\)")
+			self.castWithHeader("LightsCommand","allOn")
+	
 		
-		elif payload == "weekend morning":
-			if not self.shouldReact:
-				self.castWithHeader("MediaCommand","playPlaylist The\ Great\ British\ Breakfast\ \(by\ spotify_uk_\)")
-				self.castWithHeader("LightsCommand","allOn")
-				self.shouldReact = True
+		elif payload == "weekend morning":		
+			self.castWithHeader("MediaCommand","playPlaylist The\ Great\ British\ Breakfast\ \(by\ spotify_uk_\)")
+			self.castWithHeader("LightsCommand","allOn")
 						
 		elif payload == "weekday afternoon":
 			if self.emmaAtHome or self.steveAtHome:
-				self.shouldReact = True
 				self.castWithHeader("LightsCommand","allOff")
 			else:
 				self.castWithHeader("MediaCommand","pause")
+				self.castWithHeader("LightsCommand","allOff")
 				self.shouldReact = True
 				
 		elif payload == "weekday evening":
 			if self.emmaAtHome or self.steveAtHome:
 				self.castWithHeader("LightsCommand","allOn")
-			if not self.shouldReact:
+			else:
 				self.shouldReact = True
 				
 		elif payload == "weekday night":
-			if self.shouldReact:
-				self.castWithHeader("MediaCommand","pause")
-				self.shouldReact = False
+			self.castWithHeader("MediaCommand","pause")
+			self.castWithHeader("LightsCommand","allOff")
+			self.shouldReact = False
+		
+		elif payload == "weekend night":
+			self.castWithHeader("MediaCommand","pause")
+			self.castWithHeader("LightsCommand","allOff")
+			self.shouldReact = False
 
 	
 	def handleNetworkUpdate(self,payload):
