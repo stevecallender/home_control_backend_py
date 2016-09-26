@@ -31,18 +31,18 @@ class NetworkMonitor(Caster):
 		while True:
 			emmaIp = self.getIpFromMac(EMMA_MAC)
 			steveIp = self.getIpFromMac(STEVE_MAC)
-			(out, err) = subprocess.Popen(["fping -m -g 192.168.1.1 192.168.1.10"], stdout=subprocess.PIPE, shell=True).communicate()
+			(out, err) = subprocess.Popen(["fping -m -g 192.168.1.1 192.168.1.12"], stdout=subprocess.PIPE, shell=True).communicate()
 			for row in out.split("\n"):
 				print "ROW " + row
 				if row.find(emmaIp) > -1 and row.find("alive") > -1:
 					print "Emma ip " +emmaIp
-					print "Lookign for alive"  + str(row.find("alive"))
 					if not emmaPresent:
 						self.cast("emma joined")
 						emmaPresent = True
 					if stevePresent:
 						break
 				if row.find(steveIp) > -1 and row.find("alive") > -1:
+					print "Steve ip " +steveIp
 					if not stevePresent:
 						self.cast("steve joined")
 						stevePresent = True
