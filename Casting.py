@@ -3,8 +3,9 @@ import time
 
 class Caster(object):
 
-	def __init__(self,identifier):
+	def __init__(self,identifier,shouldLog = False):
 		self.identifier = identifier
+		self.shouldLog  = shouldLog
 		context         = zmq.Context()
 		self.publisher  = context.socket(zmq.PUB)
 		
@@ -23,9 +24,11 @@ class Caster(object):
 
 		
 	def cast(self,message):
-		print "Casting message: " + message
+		if self.shouldLog:
+			print "Casting message: " + message
 		self.publisher.send_multipart([self.identifier, message])
 	
 	def castWithHeader(self,header,message):
-		print "Casting message: " + message
+		if self.shouldLog:
+			print "Casting message: " + message
 		self.publisher.send_multipart([header, message])
