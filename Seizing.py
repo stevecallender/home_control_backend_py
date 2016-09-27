@@ -3,8 +3,9 @@ import time
 
 class Seizer(object):
 
-	def __init__(self,identifiers):
+	def __init__(self,identifiers,shouldLog = False):
 		self.identifiers = identifiers
+		self.shouldLog   = shouldLog
 		context         = zmq.Context()
 		self.subscriber = context.socket(zmq.SUB)
 		portList = ["5560","5561","5562","5563","5564","5565"]
@@ -28,8 +29,8 @@ class Seizer(object):
 				[address, contents] = self.subscriber.recv_multipart(flags=zmq.NOBLOCK)
 			except:
 				pass #no message to seize - no problem
-		if contents != "": 
-			print "Seizing message: "+contents
+		if contents != "" and shouldLog:
+                        print "Seizing message: "+contents
 		return [address,contents]
 
 			

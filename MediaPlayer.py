@@ -9,7 +9,7 @@ class MediaPlayer(Seizer,Caster):
 		ownIdentifier = "MediaInfo"
 		interestedIdentifiers = ["MediaCommand"]
 		Caster.__init__(self,ownIdentifier)
-		Seizer.__init__(self,interestedIdentifiers)
+		Seizer.__init__(self,interestedIdentifiers,True)
 		
 		subprocess.Popen(["mpc clear"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
