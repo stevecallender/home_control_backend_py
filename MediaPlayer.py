@@ -17,7 +17,7 @@ class MediaPlayer(Seizer,Caster):
 		time.sleep(1)
 		subprocess.Popen(["mpc repeat"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
-		subprocess.Popen(["mpc volume 60"], stdout=subprocess.PIPE, shell=True).communicate()
+		subprocess.Popen(["mpc volume 5"], stdout=subprocess.PIPE, shell=True).communicate()
 
 		self.isPlaying = False
 		self.currentInfo = ""
@@ -85,7 +85,7 @@ class MediaPlayer(Seizer,Caster):
 			self.parseCommand(payload) 
 			(out, err) = subprocess.Popen(["mpc current"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.handlePlayInfo(out)
-			time.sleep(2)
+			time.sleep(3)
 			
 			
 			
