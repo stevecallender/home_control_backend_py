@@ -5,7 +5,7 @@ class PlugDriver(Seizer):
 
 	def __init__(self):
 
-		Seizer.__init__(self,"LightsCommand")
+		Seizer.__init__(self,"LightsCommand",True)
 		self.allLights = Energenie(1)
 
 	def handleLightsCommand(self, header):
