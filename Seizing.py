@@ -1,5 +1,5 @@
 import zmq
-import time
+import time, datetime
 
 class Seizer(object):
 
@@ -30,7 +30,10 @@ class Seizer(object):
 			except:
 				pass #no message to seize - no problem
 		if contents != "" and self.shouldLog:
-                        print "Seizing message: "+contents
+			if blocking:
+                        	print "Blocking Seizing message: "+contents+ "at "+str(datetime.datetime.now())
+			else:
+				print "Non-Blocking Seizing message: "+contents + "at "+str(datetime.datetime.now())
 		return [address,contents]
 
 			

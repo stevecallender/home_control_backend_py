@@ -1,5 +1,5 @@
 import zmq
-import time
+import time, datetime
 
 class Caster(object):
 
@@ -25,10 +25,10 @@ class Caster(object):
 		
 	def cast(self,message):
 		if self.shouldLog:
-			print "Casting message: " + message
+			print "Casting message: " + message + "at " +str(datetime.datetime.now())
 		self.publisher.send_multipart([self.identifier, message])
 	
 	def castWithHeader(self,header,message):
 		if self.shouldLog:
-			print "Casting message: " + message
+			print "Casting message: " + message + "at "+str(datetime.datetime.now())
 		self.publisher.send_multipart([header, message])
