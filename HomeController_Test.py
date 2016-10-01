@@ -7,8 +7,8 @@ class TestDriver(Caster,Seizer):
 
 
 	def __init__(self):
-		Seizer.__init__(self,"MediaCommand")
-		Caster.__init__(self,"")
+		Seizer.__init__(self,"MediaCommand",True)
+		Caster.__init__(self,"",True)
 		
 		self.test_steveArrival     = "steve joined"
 		self.test_emmaArrival      = "emma joined"

@@ -2,6 +2,7 @@ from Casting import *
 from Seizing import *
 import subprocess
 import time
+import sys
 
 class HomeController(Seizer,Caster):
 	
@@ -13,7 +14,7 @@ class HomeController(Seizer,Caster):
 		
 		interestedIdentifiers = ["TimeUpdate","NetworkUpdate","MediaInfo"]
 		Caster.__init__(self,ownIdentifier,True)
-		Seizer.__init__(self,interestedIdentifiers)
+		Seizer.__init__(self,interestedIdentifiers,True)
 		
 		self.steveAtHome = False
 		self.emmaAtHome  = False
@@ -67,6 +68,8 @@ class HomeController(Seizer,Caster):
 	def handleNetworkUpdate(self,payload):
 
 		if payload == "steve joined":
+			print "Steve joined"
+			sys.stdout.flush()
 			self.castWithHeader("MediaCommand", "greeting steve")
 			self.steveAtHome = True
 			if self.shouldReact:
@@ -75,6 +78,7 @@ class HomeController(Seizer,Caster):
 				self.shouldReact = False
 		
 		elif payload == "emma joined":
+			print "Emma joined"
 			self.castWithHeader("MediaCommand", "greeting emma")
 			self.emmaAtHome = True
 			if self.shouldReact:
@@ -82,7 +86,7 @@ class HomeController(Seizer,Caster):
 				self.castWithHeader("LightsCommand","allOn")
 				self.shouldReact = False
 		
-		if payload == "steve left":
+		elif payload == "steve left":
 			self.steveAtHome = False
 			if not self.emmaAtHome:
 				self.castWithHeader("MediaCommand","pause")
@@ -100,12 +104,11 @@ class HomeController(Seizer,Caster):
 
 	def run(self):
 		while True:
-			[header, payload] = self.seize()
+			[header, payload] = self.seize(False)
 			if header == "TimeUpdate":
 				self.handleTimeUpdate(payload)
 			elif header == "NetworkUpdate":
-				self.handleNetworkUpdate(payload)
-			
+				self.handleNetworkUpdate(payload)		
 				
 				
 if __name__ == "__main__":
