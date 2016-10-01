@@ -12,9 +12,10 @@ class HomeController(Seizer,Caster):
 		self.plugCommmand = "PlugCommand"
 		
 		interestedIdentifiers = ["TimeUpdate","NetworkUpdate","MediaInfo"]
-		Caster.__init__(self,ownIdentifier,True)
+
 		Seizer.__init__(self,interestedIdentifiers)
-		
+		Caster.__init__(self,ownIdentifier,True)		
+
 		self.steveAtHome = False
 		self.emmaAtHome  = False
 		
