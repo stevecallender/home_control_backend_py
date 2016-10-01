@@ -3,7 +3,7 @@ from Seizing import *
 import subprocess
 import time
 
-class MediaPlayer(Seizer,Caster):
+class MediaPlayer(Caster,Seizer):
 	
 	def __init__(self):
 		ownIdentifier = "MediaInfo"
