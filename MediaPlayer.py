@@ -11,8 +11,6 @@ class MediaPlayer(Seizer,Caster):
 		Caster.__init__(self,ownIdentifier)
 		Seizer.__init__(self,interestedIdentifiers,True)
 		
-		subprocess.Popen(["mpc clear"], stdout=subprocess.PIPE, shell=True).communicate()
-		time.sleep(1)
 		subprocess.Popen(["mpc random"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
 		subprocess.Popen(["mpc repeat"], stdout=subprocess.PIPE, shell=True).communicate()
@@ -32,6 +30,10 @@ class MediaPlayer(Seizer,Caster):
 	def playPlaylist(self,playlist):
 		if not self.isPlaying :
 			(out, err) = subprocess.Popen(["mpc clear"], stdout=subprocess.PIPE, shell=True).communicate()
+			time.sleep(1)
+			subprocess.Popen(["mpc random"], stdout=subprocess.PIPE, shell=True).communicate()
+                	time.sleep(1)
+                	subprocess.Popen(["mpc repeat"], stdout=subprocess.PIPE, shell=True).communicate()
 			time.sleep(1)
 			(out, err) = subprocess.Popen(["mpc load " + playlist], stdout=subprocess.PIPE, shell=True).communicate()
 			time.sleep(1)
