@@ -1,4 +1,4 @@
-
+\
 from Casting import *
 import subprocess
 
@@ -24,44 +24,58 @@ class NetworkMonitor(Caster):
 		stevePresent = False
 		emmaPresent = False
 
-		emmaThreshold = 300
-		steveThreshold = 300
+
+		emmaThreshold = 60
+		steveThreshold = 60
 	
 	
 		while True:
+			#default the detections to false before each attempt
+			steveDetected = False
+			emmaDetected = False
+			print "AHAJHDJKGFKJHSKJGKJFG "
+			print emmaThreshold
 			emmaIp = self.getIpFromMac(EMMA_MAC)
 			steveIp = self.getIpFromMac(STEVE_MAC)
 			(out, err) = subprocess.Popen(["fping -m -g 192.168.1.1 192.168.1.12"], stdout=subprocess.PIPE, shell=True).communicate()
 			for row in out.split("\n"):
 				print "ROW " + row
 				if row.find(emmaIp) > -1 and row.find("alive") > -1:
+					emmaDetected = True
 					print "Emma ip " +emmaIp
 					if not emmaPresent:
 						self.cast("emma joined")
 						emmaPresent = True
 					if stevePresent:
 						break
+
 				if row.find(steveIp) > -1 and row.find("alive") > -1:
+					steveDetected = True
 					print "Steve ip " +steveIp
 					if not stevePresent:
 						self.cast("steve joined")
 						stevePresent = True
 					if emmaPresent:
 						break
-			if stevePresent:
-				steveThreshold = 300
-			elif --steveThreshold < 0:
-				self.cast("steve left")
-				steveThreshold = 300
+
+			if steveDetected:
+				steveThreshold = 60
+			elif steveThreshold <= 0:
+				if stevePresent:
+					self.cast("steve left")
+					stevePresent = False
 			else:
+				steveThreshold -= 1
 				steveIp = self.getIpFromMac(STEVE_MAC)
 			
-			if emmaPresent:
-				emmaThreshold = 300
-			elif --emmaThreshold < 0:
-				self.scast("emma left")
-				emmaThreshold = 300
-			else:
+			if emmaDetected:
+				emmaThreshold = 60
+			elif emmaThreshold <= 0: #if the threshold his 0 and she is not detected then she must have left
+				if emmaPresent: #but we only want to notify if she was previously present
+					self.cast("emma left")
+					emmaPresent = False
+			else: #we only get here is she is not detected and the threshold is not reached
+				emmaThreshold -= 1
 				emma = self.getIpFromMac(EMMA_MAC)
 				
 
