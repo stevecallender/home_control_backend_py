@@ -11,56 +11,57 @@ class MediaPlayer(Caster,Seizer):
 		Caster.__init__(self,ownIdentifier)
 		Seizer.__init__(self,interestedIdentifiers,True)
 		
+		self.freshSetup()
+
+	def freshSetup(self):
+		subprocess.Popen(["mpc clear"], stdout=subprocess.PIPE, shell=True).communicate()
+		time.sleep(1)
 		subprocess.Popen(["mpc random"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
 		subprocess.Popen(["mpc repeat"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
 		subprocess.Popen(["mpc volume 5"], stdout=subprocess.PIPE, shell=True).communicate()
+		time.sleep(1)
 
 		self.isPlaying = False
 		self.currentInfo = ""
+
 		
 		
 	def play(self):
 		if not self.isPlaying :
-			print "Playing"
-			(out, err) = subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
+			subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.isPlaying  = True
 	
 	def playPlaylist(self,playlist):
 		if not self.isPlaying :
-			(out, err) = subprocess.Popen(["mpc clear"], stdout=subprocess.PIPE, shell=True).communicate()
+			self.freshSetup()
+			subprocess.Popen(["mpc load " + playlist], stdout=subprocess.PIPE, shell=True).communicate()
 			time.sleep(1)
-			subprocess.Popen(["mpc random"], stdout=subprocess.PIPE, shell=True).communicate()
-                	time.sleep(1)
-                	subprocess.Popen(["mpc repeat"], stdout=subprocess.PIPE, shell=True).communicate()
-			time.sleep(1)
-			(out, err) = subprocess.Popen(["mpc load " + playlist], stdout=subprocess.PIPE, shell=True).communicate()
-			time.sleep(1)
-			(out, err) = subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
+			subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.isPlaying  = True
 	
 	def next(self):
 		if self.isPlaying :
-			(out, err) = subprocess.Popen(["mpc next"], stdout=subprocess.PIPE, shell=True).communicate()
+			subprocess.Popen(["mpc next"], stdout=subprocess.PIPE, shell=True).communicate()
 		else:
-			(out, err) = subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
+			subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
 			time.sleep(1)
-			(out, err) = subprocess.Popen(["mpc next"], stdout=subprocess.PIPE, shell=True).communicate()
+			subprocess.Popen(["mpc next"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.isPlaying   = True
 	
 	def previous(self):
 		if self.isPlaying :
-			(out, err) = subprocess.Popen(["mpc prev"], stdout=subprocess.PIPE, shell=True).communicate()
+			subprocess.Popen(["mpc prev"], stdout=subprocess.PIPE, shell=True).communicate()
 		else:
-			(out, err) = subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
+			subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
 			time.sleep(1)
-			(out, err) = subprocess.Popen(["mpc prev"], stdout=subprocess.PIPE, shell=True).communicate()
+			subprocess.Popen(["mpc prev"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.isPlaying   = True
 	
 	def pause(self):
 		if self.isPlaying :
-			(out, err) = subprocess.Popen(["mpc pause"], stdout=subprocess.PIPE, shell=True).communicate()
+			subprocess.Popen(["mpc pause"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.isPlaying  = False
 	
 	def handlePlayInfo(self, info):
