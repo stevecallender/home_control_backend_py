@@ -3,7 +3,7 @@ import time, datetime
 
 class Caster(object):
 
-	def __init__(self,identifier,shouldLog = False):
+	def __init__(self,identifier,shouldLog = True):
 		self.identifier = identifier
 		self.shouldLog  = shouldLog
 		context         = zmq.Context()

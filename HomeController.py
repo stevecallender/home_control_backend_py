@@ -15,7 +15,7 @@ class HomeController(Seizer,Caster):
 		interestedIdentifiers = ["TimeUpdate","NetworkUpdate","MediaInfo"]
 
 		Seizer.__init__(self,interestedIdentifiers)
-		Caster.__init__(self,ownIdentifier,True)		
+		Caster.__init__(self,ownIdentifier)		
 
 		self.steveAtHome = False
 		self.emmaAtHome  = False
@@ -90,14 +90,16 @@ class HomeController(Seizer,Caster):
 				self.shouldReact = False
 		
 		elif payload == "steve left":
+			print "Steve Left"
 			self.steveAtHome = False
-			if not self.emmaAtHome and self.shouldReact:
+			if (not self.emmaAtHome) and self.shouldReact:
 				self.castWithHeader("MediaCommand","pause")
 				self.castWithHeader("LightsCommand","allOff")
 		
 		elif payload == "emma left":
+			print "Emma left"
 			self.emmaAtHome = False
-			if not self.steveAtHome and self.shouldReact:
+			if (not self.steveAtHome) and self.shouldReact:
 				self.castWithHeader("MediaCommand","pause")
 				self.castWithHeader("LightsCommand","allOff")
 

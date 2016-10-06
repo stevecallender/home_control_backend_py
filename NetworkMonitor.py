@@ -30,6 +30,11 @@ class NetworkMonitor(Caster):
 	
 	
 		while True:
+			print "Steve threshold"
+                        print steveThreshold
+			print "Emma threshold:"
+			print emmaThreshold
+
 			#default the detections to false before each attempt
 			steveDetected = False
 			emmaDetected = False
@@ -64,8 +69,6 @@ class NetworkMonitor(Caster):
 					stevePresent = False
 			else:
 				steveThreshold -= 1
-				print "Steve threshold"
-				print steveThreshold
 				steveIp = self.getIpFromMac(STEVE_MAC)
 			
 			if emmaDetected:
@@ -76,8 +79,6 @@ class NetworkMonitor(Caster):
 					emmaPresent = False
 			else: #we only get here is she is not detected and the threshold is not reached
 				emmaThreshold -= 1
-				print "Emma threshold:"
-				print emmaThreshold
 				emma = self.getIpFromMac(EMMA_MAC)
 				
 
