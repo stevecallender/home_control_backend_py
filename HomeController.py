@@ -14,8 +14,11 @@ class HomeController(Seizer,Caster):
 		
 		interestedIdentifiers = ["TimeUpdate","NetworkUpdate","MediaInfo"]
 
-		Seizer.__init__(self,interestedIdentifiers)
-		Caster.__init__(self,ownIdentifier)		
+		Seizer.__init__(self)
+		Caster.__init__(self)		
+
+		Seizer.configure(self,interestedIdentifiers)
+                Caster.configure(self,ownIdentifier,True)
 
 		self.steveAtHome = False
 		self.emmaAtHome  = False
@@ -52,6 +55,12 @@ class HomeController(Seizer,Caster):
 				self.shouldReact = True
 				
 		elif payload == "weekday evening":
+			if self.emmaAtHome or self.steveAtHome:
+				self.castWithHeader("LightsCommand","allOn")
+			else:
+				self.shouldReact = True
+
+		elif payload == "weekend evening":
 			if self.emmaAtHome or self.steveAtHome:
 				self.castWithHeader("LightsCommand","allOn")
 			else:

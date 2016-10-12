@@ -10,8 +10,8 @@ class NetworkMonitor(Caster):
 	def __init__(self):
 	
 		ownIdentifier = "NetworkUpdate"
-		Caster.__init__(self,ownIdentifier,True)
-
+		Caster.__init__(self)
+		Caster.configure(self,ownIdentifier,True)
 
 	def run(self):
 	

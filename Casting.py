@@ -3,9 +3,10 @@ import time, datetime
 
 class Caster(object):
 
-	def __init__(self,identifier,shouldLog = True):
-		self.identifier = identifier
-		self.shouldLog  = shouldLog
+	def __init__(self):
+		print "Initialising Caster"
+		self.identifier = ""
+		self.shouldLog  = False
 		context         = zmq.Context()
 		self.publisher  = context.socket(zmq.PUB)
 		
@@ -22,7 +23,11 @@ class Caster(object):
 				print "Trying next port"
 				portIndex += 1
 
-		
+	def configure(self,identifier, shouldLog = False):
+		self.identifier = identifier
+                self.shouldLog  = shouldLog		
+
+
 	def cast(self,message):
 		if self.shouldLog:
 			print "Casting message: " + message + "at " +str(datetime.datetime.now())
