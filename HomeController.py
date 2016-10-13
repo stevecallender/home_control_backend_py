@@ -56,14 +56,14 @@ class HomeController(Seizer,Caster):
 		elif payload == "weekday evening":
 			if self.emmaAtHome or self.steveAtHome:
 				self.castWithHeader("LightsCommand","allOn")
-			else:
-				self.shouldReact = True
+
+			self.shouldReact = True
 
 		elif payload == "weekend evening":
 			if self.emmaAtHome or self.steveAtHome:
 				self.castWithHeader("LightsCommand","allOn")
-			else:
-				self.shouldReact = True
+			
+			self.shouldReact = True
 				
 		elif payload == "weekday night":
 			self.castWithHeader("MediaCommand","pause")

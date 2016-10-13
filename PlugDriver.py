@@ -4,7 +4,7 @@ from gpiozero import Energenie
 class PlugDriver(Seizer):
 
 	def __init__(self):
-		interestedIdentifiers = ["PlugCommand"]
+		interestedIdentifiers = ["LightsCommand"]
 		super(PlugDriver,self).__init__()
 		self.configureSeizer(interestedIdentifiers,True)
 		self.allLights = Energenie(1)
