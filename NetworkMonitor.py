@@ -15,7 +15,7 @@ class NetworkMonitor(Caster):
 
 	def run(self):
 	
-		EMMA_MAC = "b4:18:d1:d3:35:4e"
+		EMMA_MAC = "18:65:90:74:9b:2f"
 		STEVE_MAC= "1c:1a:c0:22:23:e7"
 
 		emmaIp = ""
@@ -25,8 +25,8 @@ class NetworkMonitor(Caster):
 		emmaPresent = False
 
 
-		emmaThreshold = 100
-		steveThreshold = 100
+		emmaThreshold = 300
+		steveThreshold = 300
 	
 	
 		while True:
@@ -40,7 +40,7 @@ class NetworkMonitor(Caster):
 			emmaDetected = False
 			emmaIp = self.getIpFromMac(EMMA_MAC)
 			steveIp = self.getIpFromMac(STEVE_MAC)
-			(out, err) = subprocess.Popen(["fping -m -g 192.168.1.1 192.168.1.12"], stdout=subprocess.PIPE, shell=True).communicate()
+			(out, err) = subprocess.Popen(["fping -m -g 192.168.1.1 192.168.1.15"], stdout=subprocess.PIPE, shell=True).communicate()
 			for row in out.split("\n"):
 				print "ROW " + row
 				if row.find(emmaIp) > -1 and row.find("alive") > -1:
@@ -62,7 +62,7 @@ class NetworkMonitor(Caster):
 						break
 
 			if steveDetected:
-				steveThreshold = 100
+				steveThreshold = 300
 			elif steveThreshold <= 0:
 				if stevePresent:
 					self.cast("steve left")
@@ -72,7 +72,7 @@ class NetworkMonitor(Caster):
 				steveIp = self.getIpFromMac(STEVE_MAC)
 			
 			if emmaDetected:
-				emmaThreshold = 100
+				emmaThreshold = 300
 			elif emmaThreshold <= 0: #if the threshold his 0 and she is not detected then she must have left
 				if emmaPresent: #but we only want to notify if she was previously present
 					self.cast("emma left")

@@ -8,7 +8,7 @@ class TimeMonitor(Caster):
 	
 		ownIdentifier = "TimeUpdate"
 		super(TimeMonitor,self).__init__()
-                self.configureCaster(ownIdentifier)
+                self.configureCaster(ownIdentifier,True)
 
 		
 	def run(self):
