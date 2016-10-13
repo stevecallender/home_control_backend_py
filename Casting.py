@@ -4,6 +4,7 @@ import time, datetime
 class Caster(object):
 
 	def __init__(self):
+		super(Caster, self).__init__()
 		print "Initialising Caster"
 		self.identifier = ""
 		self.shouldLog  = False
@@ -23,7 +24,7 @@ class Caster(object):
 				print "Trying next port"
 				portIndex += 1
 
-	def configure(self,identifier, shouldLog = False):
+	def configureCaster(self,identifier, shouldLog = False):
 		self.identifier = identifier
                 self.shouldLog  = shouldLog		
 

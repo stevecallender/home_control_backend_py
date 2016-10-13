@@ -14,11 +14,10 @@ class HomeController(Seizer,Caster):
 		
 		interestedIdentifiers = ["TimeUpdate","NetworkUpdate","MediaInfo"]
 
-		Seizer.__init__(self)
-		Caster.__init__(self)		
+		super(HomeController,self).__init__()		
 
-		Seizer.configure(self,interestedIdentifiers)
-                Caster.configure(self,ownIdentifier,True)
+		self.configureSeizer(interestedIdentifiers,True)
+                self.configureCaster(ownIdentifier,True)
 
 		self.steveAtHome = False
 		self.emmaAtHome  = False

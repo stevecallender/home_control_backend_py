@@ -4,6 +4,7 @@ import time, datetime
 class Seizer(object):
 
 	def __init__(self):
+		super(Seizer, self).__init__()
 		print "Initialising Seizer"
 		self.identifiers = []
 		self.shouldLog   = False
@@ -15,13 +16,12 @@ class Seizer(object):
 			self.subscriber.connect("tcp://localhost:"+port)
 			for ip in range(1,20):
 				self.subscriber.connect("tcp://192.168.1."+str(ip)+":"+port)
-		
-		for id in self.identifiers:
-			self.subscriber.setsockopt(zmq.SUBSCRIBE, id)
 
-	def configure(self,identifiers,shouldLog = False):
+	def configureSeizer(self,identifiers,shouldLog = False):
 		self.identifiers = identifiers
                 self.shouldLog  = shouldLog
+		for id in self.identifiers:
+                        self.subscriber.setsockopt(zmq.SUBSCRIBE, id)
 			
 	def seize(self, blocking = True):
 		[address,contents] = ("","")

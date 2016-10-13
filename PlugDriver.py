@@ -5,8 +5,8 @@ class PlugDriver(Seizer):
 
 	def __init__(self):
 		interestedIdentifiers = ["PlugCommand"]
-		Seizer.__init__(self)
-		Seizer.configure(self,interestedIdentifiers)
+		super(PlugDriver,self).__init__()
+		self.configureSeizer(interestedIdentifiers,True)
 		self.allLights = Energenie(1)
 
 	def handleLightsCommand(self, header):
