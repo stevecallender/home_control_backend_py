@@ -40,7 +40,7 @@ class NetworkMonitor(Caster):
 			emmaDetected = False
 			emmaIp = self.getIpFromMac(EMMA_MAC)
 			steveIp = self.getIpFromMac(STEVE_MAC)
-			(out, err) = subprocess.Popen(["fping -m -g 192.168.1.1 192.168.1.15"], stdout=subprocess.PIPE, shell=True).communicate()
+			(out, err) = subprocess.Popen(["fping -m -g 192.168.1.1 192.168.1.20"], stdout=subprocess.PIPE, shell=True).communicate()
 			for row in out.split("\n"):
 				print "ROW " + row
 				if row.find(emmaIp) > -1 and row.find("alive") > -1:
