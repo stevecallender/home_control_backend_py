@@ -52,6 +52,15 @@ class HomeController(Seizer,Caster):
 				self.castWithHeader("MediaCommand","pause")
 				self.castWithHeader("LightsCommand","allOff")
 				self.shouldReact = True
+
+		elif payload == "weekend afternoon":
+                        if self.emmaAtHome or self.steveAtHome:
+                                self.castWithHeader("LightsCommand","allOff")
+                        else:
+                                self.castWithHeader("MediaCommand","pause")
+                                self.castWithHeader("LightsCommand","allOff")
+                                self.shouldReact = True
+
 				
 		elif payload == "weekday evening":
 			if self.emmaAtHome or self.steveAtHome:
@@ -80,7 +89,6 @@ class HomeController(Seizer,Caster):
 
 		if payload == "steve joined":
 			print "Steve joined"
-			sys.stdout.flush()
 			self.castWithHeader("MediaCommand", "greeting steve")
 			self.steveAtHome = True
 			if self.shouldReact:
@@ -93,7 +101,7 @@ class HomeController(Seizer,Caster):
 			self.castWithHeader("MediaCommand", "greeting emma")
 			self.emmaAtHome = True
 			if self.shouldReact:
-				if not self.emmaAtHome:
+				if not self.steveAtHome:
 					self.castWithHeader("MediaCommand","playPlaylist Spoon\ City\ Bitch\ \(by\ stevecallender\)")
 					self.castWithHeader("LightsCommand","allOn")
 		
