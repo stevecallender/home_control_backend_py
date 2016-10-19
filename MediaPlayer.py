@@ -10,7 +10,7 @@ class MediaPlayer(Caster,Seizer):
 		interestedIdentifiers = ["MediaCommand"]
 		super(MediaPlayer,self).__init__()
 		self.configureSeizer(interestedIdentifiers,True)
-                self.configureCaster(ownIdentifier)		
+                self.configureCaster(ownIdentifier,True)		
 		self.freshSetup()
 
 	def freshSetup(self):
@@ -18,9 +18,9 @@ class MediaPlayer(Caster,Seizer):
 		time.sleep(1)
 		subprocess.Popen(["mpc random true"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
-		subprocess.Popen(["mpc repeat"], stdout=subprocess.PIPE, shell=True).communicate()
+		subprocess.Popen(["mpc repeat true"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
-		subprocess.Popen(["mpc volume 5"], stdout=subprocess.PIPE, shell=True).communicate()
+		subprocess.Popen(["mpc volume 20"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
 
 		self.isPlaying = False
