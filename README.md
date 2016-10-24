@@ -6,6 +6,10 @@ In order to connect the pi to bluetooth it is necessary to set the sink to be th
 Connect to bluetooth device and then run this command pacmd "set-default-sink bluez_sink.FC_58_FA_6C_42_43"
 
 
+Note if using the 3.5mm jack and want to adjust the volume via command line then run the following commands:
+amixer scontrols
+amixer sset 'Master' 50%
+
 How to install ZeroMQ on Raspberry Pi
 
 The following instructions should work on your Raspbian distribution. Please report any problem. :)
