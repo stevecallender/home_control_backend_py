@@ -17,7 +17,7 @@ class TimeMonitor(Caster):
 			self.castWithHeader("TimeValue",str(currentTime.hour)+":"+str(currentTime.minute))
 			# WEEKEND
 			if currentTime.isoweekday() == 6 or currentTime.isoweekday() == 7:
-				if currentTime.hour >= 10 and currentTime.hour <= 13:
+				if currentTime.hour >= 9 and currentTime.hour <= 13:
 					self.cast("weekend morning")
 				elif currentTime.hour >= 14 and currentTime.hour <= 18:
 					self.cast("weekend afternoon")
