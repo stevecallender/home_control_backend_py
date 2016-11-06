@@ -44,3 +44,15 @@ The pyzmq package requires python-dev to compile.
 
 sudo apt-get install python-dev
 sudo pip install pyzmq
+
+
+Installing homebridge:
+
+sudo apt install nodejs npm git libavahi-compat-libdnssd-dev
+
+sudo npm install -g n
+sudo n stable
+
+sudo npm install -g --unsafe-perm homebridge
+
+
