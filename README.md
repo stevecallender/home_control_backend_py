@@ -46,13 +46,37 @@ sudo apt-get install python-dev
 sudo pip install pyzmq
 
 
-Installing homebridge:
+Installing HAP-NodeJS for Homekit support:
 
-sudo apt install nodejs npm git libavahi-compat-libdnssd-dev
+Follow instrutions on this guide
+http://www.instructables.com/id/Raspberry-Pi-2-Homekit-from-zero-to-Hey-Siri/?ALLSTEPS
 
-sudo npm install -g n
-sudo n stable
+This involves getting HAP-NodeJS from
 
-sudo npm install -g --unsafe-perm homebridge
+git clone https://github.com/KhaosT/HAP-NodeJS.git
+
+Additional npm packages required
+
+sudo npm install node-persist
+sudo npm install debug
+sudo npm install mdns
+sudo npm install fast-srp-hap
+sudo npm install ed25519
+sudo npm install buffer-shims
+sudo npm install curve25519-n
+sudo npm install ip
+
+
+Currently we must place the python scripts inside the HAP-NodeJS directory and of course place Casting.py in there as well. Ideally these could be totally independent. 
+
+Homebridge code : 03145154
+
+Also need to update Casting.py to close connection properly when it destructs as right now i think there will be lots of open connections whenever it is used via home kit.
+
+If iOS device does not find accessories then remove persists directory
+
+Note that the python scripts have to be moved to the HAP-NodeJS directory and accessories updated to call them.
+
+
 
 
