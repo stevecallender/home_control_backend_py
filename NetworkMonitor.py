@@ -16,7 +16,7 @@ class NetworkMonitor(Caster):
 	def run(self):
 	
 		EMMA_MAC = "18:65:90:74:9b:2f"
-		STEVE_MAC= "1c:1a:c0:22:23:e7"
+		STEVE_MAC= "58:40:4e:3e:d0:5f"
 
 		emmaIp = ""
 		steveIp = ""

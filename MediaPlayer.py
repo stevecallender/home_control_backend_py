@@ -20,7 +20,7 @@ class MediaPlayer(Caster,Seizer):
 		time.sleep(1)
 		subprocess.Popen(["mpc repeat true"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
-		subprocess.Popen(["mpc volume 20"], stdout=subprocess.PIPE, shell=True).communicate()
+		subprocess.Popen(["mpc volume 18"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
 
 		self.isPlaying = False
