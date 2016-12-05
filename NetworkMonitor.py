@@ -49,8 +49,6 @@ class NetworkMonitor(Caster):
 					if not emmaPresent:
 						self.cast("emma joined")
 						emmaPresent = True
-					if stevePresent:
-						break
 
 				if row.find(steveIp) > -1 and row.find("alive") > -1:
 					steveDetected = True
@@ -58,8 +56,8 @@ class NetworkMonitor(Caster):
 					if not stevePresent:
 						self.cast("steve joined")
 						stevePresent = True
-					if emmaPresent:
-						break
+				if emmaDetected and steveDetected:
+					break
 
 			if steveDetected:
 				steveThreshold = 300
