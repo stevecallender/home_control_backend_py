@@ -35,13 +35,13 @@ class HomeController(Seizer,Caster):
 		self.lastTimeUpdate = payload
 
 		if payload == "weekday morning":
-			self.castWithHeader("MediaCommand","playPlaylist Your\ Coffee\ Break\ \(by\ spotify_uk_\)")
+			self.castWithHeader("MediaCommand","playPlaylist christmas\ classics")
 			self.castWithHeader("LightsCommand","allOn")
 			self.shouldReact = True
 	
 		
 		elif payload == "weekend morning":		
-			self.castWithHeader("MediaCommand","playPlaylist The\ Great\ British\ Breakfast\ \(by\ spotify_uk_\)")
+			self.castWithHeader("MediaCommand","playPlaylist christmas\ classics")
 			self.castWithHeader("LightsCommand","allOn")
 			self.shouldReact = True
 						
@@ -93,7 +93,7 @@ class HomeController(Seizer,Caster):
 			self.steveAtHome = True
 			if self.shouldReact:
 				if not self.emmaAtHome:
-					self.castWithHeader("MediaCommand","playPlaylist Spoon\ City\ Bitch\ \(by\ stevecallender\)")
+					self.castWithHeader("MediaCommand","playPlaylist christmas\ classics")#Spoon\ City\ Bitch\ \(by\ stevecallender\)")
 					self.castWithHeader("LightsCommand","allOn")
 		
 		elif payload == "emma joined":
@@ -102,7 +102,7 @@ class HomeController(Seizer,Caster):
 			self.emmaAtHome = True
 			if self.shouldReact:
 				if not self.steveAtHome:
-					self.castWithHeader("MediaCommand","playPlaylist Spoon\ City\ Bitch\ \(by\ stevecallender\)")
+					self.castWithHeader("MediaCommand","playPlaylist christmas\ classics")#Spoon\ City\ Bitch\ \(by\ stevecallender\)")
 					self.castWithHeader("LightsCommand","allOn")
 		
 		elif payload == "steve left":
