@@ -12,9 +12,9 @@ class MediaPlayer(Caster,Seizer):
 		self.configureSeizer(interestedIdentifiers,True)
                 self.configureCaster(ownIdentifier,True)		
 		self.freshSetup()
-		self.morningMusic   = "The\ Great\ British\ Breakfast\ \(by\ spotify_uk_\)"
+		self.morningMusic   = "Your\ Coffee\ Break\ \(by\ spotify_uk_\)"
 		self.eveningMusic   = "Spoon\ City\ Bitch\ \(by\ stevecallender\)"
-		self.afternoonMusic = "Topsify\ UK\ Top\ 50\ \(by\ topsify\)" 
+		self.afternoonMusic = "Vacation\ Haus\ \(by\ spotify\)" 
 
 	def freshSetup(self):
 		subprocess.Popen(["mpc clear"], stdout=subprocess.PIPE, shell=True).communicate()
