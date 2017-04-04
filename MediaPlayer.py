@@ -12,6 +12,9 @@ class MediaPlayer(Caster,Seizer):
 		self.configureSeizer(interestedIdentifiers,True)
                 self.configureCaster(ownIdentifier,True)		
 		self.freshSetup()
+		self.morningMusic   = "Your\ Coffee\ Break\ \(by\ spotify_uk_\)"
+		self.eveningMusic   = "Spoon\ City\ Bitch\ \(by\ stevecallender\)"
+		self.afternoonMusic = "Vacation\ Haus\ \(by\ spotify\)" 
 
 	def freshSetup(self):
 		subprocess.Popen(["mpc clear"], stdout=subprocess.PIPE, shell=True).communicate()
@@ -26,8 +29,6 @@ class MediaPlayer(Caster,Seizer):
 		self.isPlaying = False
 		self.currentInfo = ""
 
-		
-		
 	def play(self):
 		if not self.isPlaying :
 			subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
@@ -73,13 +74,18 @@ class MediaPlayer(Caster,Seizer):
 		if command == "play":
 			self.play()
 		if command.split(" ")[0] == "playPlaylist":
-			self.playPlaylist(command.split(" ",1)[-1])
+			if command.split(" ",1)[-1] == "morning":
+				self.playPlaylist(self.morningMusic)
+			elif command.split(" ",1)[-1] == "afternoon":
+                                self.playPlaylist(self.afternoonMusic)
+			elif command.split(" ",1)[-1] == "evening":
+                                self.playPlaylist(self.eveningMusic)
 		if command == "pause":
 			self.pause()
 		if command == "next":
 			self.next()
 		if command == "prev":
-			self.prev
+			self.prev()
 			
 			
 	def run(self):
