@@ -11,7 +11,7 @@ class Seizer(object):
 		context         = zmq.Context()
 		self.subscriber = context.socket(zmq.SUB)
 		portList = ["5560","5561","5562","5563","5564","5565"]
-		ipMax = 20 #connect to the first 20 ip addresses
+		ipMax = 5 #connect to the first 5 ip addresses
 		for port in portList: 
 			self.subscriber.connect("tcp://localhost:"+port)
 			for ip in range(1,20):
