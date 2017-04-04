@@ -69,7 +69,7 @@ sudo npm install ip
 
 Currently we must place the python scripts inside the HAP-NodeJS directory and of course place Casting.py in there as well. Ideally these could be totally independent. 
 
-Homebridge code : 03145154
+Homebridge code : 031-45-154
 
 Also need to update Casting.py to close connection properly when it destructs as right now i think there will be lots of open connections whenever it is used via home kit.
 
