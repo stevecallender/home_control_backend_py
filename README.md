@@ -87,3 +87,18 @@ https://docs.mopidy.com/en/latest/installation/debian/#debian-install
 Also useful for testing sound on RPi is:
 
 https://docs.mopidy.com/en/latest/installation/raspberrypi/#raspberrypi-installation
+
+
+MPC
+
+Install with apt-get install mpc
+
+
+DAC
+
+Use this to set up DAC
+
+curl https://get.pimoroni.com/phatdac | bash
+
+More detail: https://learn.pimoroni.com/tutorial/phat/raspberry-pi-phat-dac-install
+
