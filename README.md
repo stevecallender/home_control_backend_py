@@ -78,5 +78,12 @@ If iOS device does not find accessories then remove persists directory
 Note that the python scripts have to be moved to the HAP-NodeJS directory and accessories updated to call them.
 
 
+Mopidy
 
+Mopidy can be installed using apt-get see the documentation:
 
+https://docs.mopidy.com/en/latest/installation/debian/#debian-install
+
+Also useful for testing sound on RPi is:
+
+https://docs.mopidy.com/en/latest/installation/raspberrypi/#raspberrypi-installation
