@@ -2,9 +2,15 @@ from Casting import *
 from Seizing import *
 
 def main():
-	input = ["test","test2"]
-	seizer = Seizer(input)
-	seizer.run()
+
+	interestedIdentifiers = ["MediaInfo"]
+	seizer = Seizer()
+	seizer.configureSeizer(interestedIdentifiers,True)
+        while True:
+		[header, payload] = seizer.seize(False)
+		print header
+		time.sleep(3)
+
 
 
 if __name__ == "__main__":
