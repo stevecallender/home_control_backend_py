@@ -12,7 +12,7 @@ class MediaPlayer(Caster,Seizer):
 		self.configureSeizer(interestedIdentifiers,True)
                 self.configureCaster(ownIdentifier,True)		
 		self.freshSetup()
-		self.morningMusic   = "Your\ Coffee\ Break\ \(by\ spotify_uk_\)"
+		self.morningMusic   = "Classical\ \(by\ stevecallender\)"
 		self.eveningMusic   = "Spoon\ City\ Bitch\ \(by\ stevecallender\)"
 		self.afternoonMusic = "Vacation\ Haus\ \(by\ spotify\)" 
 
