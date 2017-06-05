@@ -15,6 +15,10 @@ class MediaPlayer(Caster,Seizer):
 		self.morningMusic   = "Classical\ \(by\ stevecallender\)"
 		self.eveningMusic   = "Spoon\ City\ Bitch\ \(by\ stevecallender\)"
 		self.afternoonMusic = "Vacation\ Haus\ \(by\ spotify\)" 
+		self.morningRadio   = "radio4"
+		self.afternoonRadio = "radio4"
+		self.eveningRadio   = "radio4"
+
 
 	def freshSetup(self):
 		subprocess.Popen(["mpc clear"], stdout=subprocess.PIPE, shell=True).communicate()
@@ -74,12 +78,23 @@ class MediaPlayer(Caster,Seizer):
 		if command == "play":
 			self.play()
 		if command.split(" ")[0] == "playPlaylist":
-			if command.split(" ",1)[-1] == "morning":
-				self.playPlaylist(self.morningMusic)
-			elif command.split(" ",1)[-1] == "afternoon":
-                                self.playPlaylist(self.afternoonMusic)
-			elif command.split(" ",1)[-1] == "evening":
-                                self.playPlaylist(self.eveningMusic)
+			if command.split(" ") [-1] == "radio":
+				if command.split(" ")[1] == "morning":
+					self.playPlaylist(self.morningRadio)
+				elif command.split(" ")[1] == "afternoon":
+                        	        self.playPlaylist(self.afternoonRadio)
+				elif command.split(" ")[1] == "evening":
+                                	self.playPlaylist(self.eveningRadio)
+			else: 
+				if command.split(" ")[1] == "morning":
+                                        self.playPlaylist(self.morningMusic)
+                                elif command.split(" ")[1] == "afternoon":
+                                        self.playPlaylist(self.afternoonMusic)
+                                elif command.split(" ")[1] == "evening":
+                                        self.playPlaylist(self.eveningMusic)
+
+
+
 		if command == "pause":
 			self.pause()
 		if command == "next":
