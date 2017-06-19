@@ -11,14 +11,15 @@ class TestDriver(Caster,Seizer):
 		self.configureCaster("",True)
 		self.configureSeizer("MediaCommand",True)
 		
-		self.test_steveArrival     = "steve joined"
-		self.test_emmaArrival      = "emma joined"
-		self.test_steveLeft        = "steve left"
-                self.test_emmaLeft         = "emma left"
-		self.test_weekdayMorning   = "weekday morning"
-		self.test_weekdayAfternoon = "weekday afternoon"
-		self.test_weekdayEvening   = "weekday evening"
-		self.test_weekdayNight     = "weekday night"
+		self.test_steveArrival     	= "steve joined"
+		self.test_emmaArrival      	= "emma joined"
+		self.test_steveLeft        	= "steve left"
+                self.test_emmaLeft         	= "emma left"
+		self.test_weekdayEarlyMorning	= "weekday early morning"
+		self.test_weekdayMorning   	= "weekday morning"
+		self.test_weekdayAfternoon 	= "weekday afternoon"
+		self.test_weekdayEvening   	= "weekday evening"
+		self.test_weekdayNight     	= "weekday night"
 
 	def run(self):
 		while True:
@@ -30,6 +31,7 @@ class TestDriver(Caster,Seizer):
 			print "6 - weekday afternoon"
 			print "7 - weekday evening"
 			print "8 - weekday night"
+			print "9 - weekday early morning"
 			ip = input()
 			print ip
 			if ip == 1:
@@ -48,6 +50,9 @@ class TestDriver(Caster,Seizer):
 				self.castWithHeader("TimeUpdate",self.test_weekdayEvening)
 			elif ip == 8:
 				self.castWithHeader("TimeUpdate",self.test_weekdayNight)
+			elif ip == 9:
+                                self.castWithHeader("TimeUpdate",self.test_weekdayEarlyMorning)
+
 			
 			[header, payload] = self.seize()
 			
