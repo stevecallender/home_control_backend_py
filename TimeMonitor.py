@@ -31,9 +31,9 @@ class TimeMonitor(Caster):
 					self.cast("weekday early morning")
 				elif currentTime.hour >= 7 and currentTime.hour <= 11:
 					self.cast("weekday morning")
-				elif currentTime.hour >= 12 and currentTime.hour <= 20:
+				elif currentTime.hour >= 12 and currentTime.hour <= 19:
 					self.cast("weekday afternoon")
-				elif currentTime.hour >= 21 and currentTime.hour <= 22:
+				elif currentTime.hour >= 20 and currentTime.hour <= 22:
 					self.cast("weekday evening")
 				else:
 					self.cast("weekday night")
