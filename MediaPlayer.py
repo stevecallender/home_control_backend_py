@@ -11,13 +11,13 @@ class MediaPlayer(Caster,Seizer):
 		super(MediaPlayer,self).__init__()
 		self.configureSeizer(interestedIdentifiers,True)
                 self.configureCaster(ownIdentifier,True)		
-		self.freshSetup()
 		self.morningMusic   = "Classical\ \(by\ stevecallender\)"
 		self.eveningMusic   = "Spoon\ City\ Bitch\ \(by\ stevecallender\)"
-		self.afternoonMusic = "Vacation\ Haus\ \(by\ spotify\)" 
+		self.afternoonMusic = "Spoon\ City\ Bitch\ \(by\ stevecallender\)" 
 		self.morningRadio   = "radio4"
 		self.afternoonRadio = "radio4"
 		self.eveningRadio   = "radio4"
+		self.freshSetup()
 
 
 	def freshSetup(self):
@@ -29,12 +29,15 @@ class MediaPlayer(Caster,Seizer):
 		time.sleep(1)
 		subprocess.Popen(["mpc volume 18"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
+		subprocess.Popen(["mpc load " + self.eveningMusic], stdout=subprocess.PIPE, shell=True).communicate()
+
 
 		self.isPlaying = False
 		self.currentInfo = ""
 
 	def play(self):
 		if not self.isPlaying :
+                        self.freshSetup()
 			subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.isPlaying  = True
 	
