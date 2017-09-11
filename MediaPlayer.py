@@ -29,25 +29,22 @@ class MediaPlayer(Caster,Seizer):
 		time.sleep(1)
 		subprocess.Popen(["mpc volume 18"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
-		subprocess.Popen(["mpc load " + self.eveningMusic], stdout=subprocess.PIPE, shell=True).communicate()
 
 
 		self.isPlaying = False
 		self.currentInfo = ""
 
-	def play(self):
-		if not self.isPlaying :
-                        self.freshSetup()
-			subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
-			self.isPlaying  = True
-	
 	def playPlaylist(self,playlist):
 		self.freshSetup()
 		subprocess.Popen(["mpc load " + playlist], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
 		subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
 		self.isPlaying  = True
-	
+
+        def play(self):
+                if not self.isPlaying :
+                        self.playPlaylist(self.eveningMusic)	
+
 	def next(self):
 		if self.isPlaying :
 			subprocess.Popen(["mpc next"], stdout=subprocess.PIPE, shell=True).communicate()
