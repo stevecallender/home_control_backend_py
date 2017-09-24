@@ -8,13 +8,13 @@
 
 
 #home control
-#python python_workspace/home_control_backend_py/TimeMonitor.py &
-#sleep 10
-#python python_workspace/home_control_backend_py/PlugDriver.py &
-#sleep 10
-#python python_workspace/home_control_backend_py/HomeController.py &
-#sleep 10
-#python python_workspace/home_control_backend_py/NetworkMonitor.py &
+python python_workspace/home_control_backend_py/TimeMonitor.py &
+sleep 10
+python python_workspace/home_control_backend_py/PlugDriver.py &
+sleep 10
+python python_workspace/home_control_backend_py/HomeController.py &
+sleep 10
+python python_workspace/home_control_backend_py/NetworkMonitor.py &
 
 #node
 #cd HAP-NodeJS

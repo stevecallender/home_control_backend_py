@@ -1,7 +1,7 @@
-\
+
 from Casting import *
 import subprocess
-
+import time
 
 
 
@@ -25,11 +25,12 @@ class NetworkMonitor(Caster):
 		emmaPresent = False
 
 
-		emmaThreshold = 300
-		steveThreshold = 300
+		emmaThreshold = 100
+		steveThreshold = 100
 	
 	
 		while True:
+			time.sleep(4)
 			print "Steve threshold"
                         print steveThreshold
 			print "Emma threshold:"
@@ -60,7 +61,7 @@ class NetworkMonitor(Caster):
 					break
 
 			if steveDetected:
-				steveThreshold = 300
+				steveThreshold = 100
 			elif steveThreshold <= 0:
 				if stevePresent:
 					self.cast("steve left")
@@ -70,7 +71,7 @@ class NetworkMonitor(Caster):
 				steveIp = self.getIpFromMac(STEVE_MAC)
 			
 			if emmaDetected:
-				emmaThreshold = 300
+				emmaThreshold = 100
 			elif emmaThreshold <= 0: #if the threshold his 0 and she is not detected then she must have left
 				if emmaPresent: #but we only want to notify if she was previously present
 					self.cast("emma left")

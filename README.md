@@ -51,6 +51,8 @@ Installing HAP-NodeJS for Homekit support:
 Follow instrutions on this guide
 http://www.instructables.com/id/Raspberry-Pi-2-Homekit-from-zero-to-Hey-Siri/?ALLSTEPS
 
+Further instruction in: https://drive.google.com/file/d/0B6GR9Hj5Ut61bDZlekRMNFdTVEE/view
+
 This involves getting HAP-NodeJS from
 
 git clone https://github.com/KhaosT/HAP-NodeJS.git
@@ -66,6 +68,17 @@ sudo npm install buffer-shims
 sudo npm install curve25519-n
 sudo npm install ip
 
+Note that its necessary to get the and install the latest node from this using wget:
+
+https://nodejs.org/dist/v8.4.0/node-v8.4.0-linux-armv6l.tar.gz
+
+tar -xvf node-v8.4.0-linux-armv7l.tar.gz
+cd node-v8.4.0-linux-armv6l.tar.gz
+sudo cp -R * /usr/local/
+
+node -v and npm -v should return the correct version - 84
+
+It may also be necessary to use npm rebuild --unsafe-perm=true
 
 Currently we must place the python scripts inside the HAP-NodeJS directory and of course place Casting.py in there as well. Ideally these could be totally independent. 
 
