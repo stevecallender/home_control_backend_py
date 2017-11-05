@@ -5,7 +5,7 @@ import sys
 class Monitor(Seizer):
         
 	def __init__(self):
-		interestedIdentifiers = ["TimeUpdate","NetworkUpdate","MediaInfo","HomeControll"]
+		interestedIdentifiers = ["TimeUpdate","NetworkUpdate","MediaInfo","HomeControl","MediaCommand"]
 
 		super(Monitor,self).__init__()           
 

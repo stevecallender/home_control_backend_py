@@ -115,3 +115,7 @@ curl https://get.pimoroni.com/phatdac | bash
 
 More detail: https://learn.pimoroni.com/tutorial/phat/raspberry-pi-phat-dac-install
 
+
+Weather info:
+
+sudo pip install pyowm
