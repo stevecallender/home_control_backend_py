@@ -43,6 +43,7 @@ Python bindings: pyzmq
 The pyzmq package requires python-dev to compile.
 
 sudo apt-get install python-dev
+sudo apt-get install python-pip
 sudo pip install pyzmq
 
 
@@ -100,6 +101,12 @@ https://docs.mopidy.com/en/latest/installation/debian/#debian-install
 Also useful for testing sound on RPi is:
 
 https://docs.mopidy.com/en/latest/installation/raspberrypi/#raspberrypi-installation
+
+To run as a service use: sudo systemctl enable mopidy
+And some useful service commands:
+sudo systemctl start mopidy
+sudo systemctl stop mopidy
+sudo systemctl restart mopidy
 
 
 MPC

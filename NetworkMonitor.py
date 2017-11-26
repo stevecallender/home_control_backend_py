@@ -25,8 +25,8 @@ class NetworkMonitor(Caster):
 		emmaPresent = False
 
 
-		emmaThreshold = 100
-		steveThreshold = 100
+		emmaThreshold = 200
+		steveThreshold = 200
 	
 	
 		while True:
@@ -61,7 +61,7 @@ class NetworkMonitor(Caster):
 					break
 
 			if steveDetected:
-				steveThreshold = 100
+				steveThreshold = 200
 			elif steveThreshold <= 0:
 				if stevePresent:
 					self.cast("steve left")
@@ -71,7 +71,7 @@ class NetworkMonitor(Caster):
 				steveIp = self.getIpFromMac(STEVE_MAC)
 			
 			if emmaDetected:
-				emmaThreshold = 100
+				emmaThreshold = 200
 			elif emmaThreshold <= 0: #if the threshold his 0 and she is not detected then she must have left
 				if emmaPresent: #but we only want to notify if she was previously present
 					self.cast("emma left")
