@@ -17,6 +17,7 @@ python python_workspace/home_control_backend_py/PlugDriver.py &
 #python python_workspace/home_control_backend_py/NetworkMonitor.py &
 
 #node
-#cd HAP-NodeJS
-#sudo rm -rf perist
-#sudo node Core.js
+sleep 10
+cd HAP-NodeJS
+sudo rm -rf perist
+sudo node Core.js
