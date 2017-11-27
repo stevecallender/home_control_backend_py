@@ -29,6 +29,13 @@ class LEDControl(SampleBase,Seizer):
                  canvas.SetPixel(x, 0, 255, 255, 255)
                  canvas.SetPixel(x, canvas.height - 1, 255, 255, 255)
 
+
+    def drawProgress(self, canvas):
+	progressInt = int(self.progress)
+        progressLength = canvas.width * (progressInt/100.0)
+        for x in range(0, int(progressLength)):
+           canvas.SetPixel(x, canvas.height-1, 80, 30, 0)
+
     def drawTime(self,canvas):
         font = graphics.Font()
         font.LoadFont("../fonts/helvR12.bdf")
@@ -66,6 +73,28 @@ class LEDControl(SampleBase,Seizer):
             self.songX -= 1
             if (self.songX + lenSong < 0):
                 self.songX = canvas.width
+        else: #this ought to be moved to a seperate operation and songX and artistX renamed
+            self.songX = 2
+            self.artistX = 2
+
+    def drawRecipe(self,canvas):
+        font = graphics.Font()
+        font.LoadFont("../fonts/5x8.bdf")
+        recipeText = self.recipeList[self.recipeIndex]
+        graphics.DrawText(canvas, font, self.artistX, self.artistY, self.mediaColor, "Dinner?")
+        if (self.cycleDisplayThreshold <= 1):
+            self.recipeIndex+=1
+            if (self.recipeIndex >= len(self.recipeList)):
+                self.recipeIndex = 0
+        lenSong = graphics.DrawText(canvas, font, self.songX, self.songY, self.mediaColor, recipeText)
+        if lenSong > 60:
+            self.songX -= 1
+            if (self.songX + lenSong < 0):
+                self.songX = canvas.width
+        else:
+            self.songX = 2
+            self.artistX = 2
+
 
     def run(self):
         canvas = self.matrix.CreateFrameCanvas()
@@ -73,9 +102,13 @@ class LEDControl(SampleBase,Seizer):
         while (True):
             canvas.Clear()
             self.drawTime(canvas)
-            self.drawMedia(canvas)
             self.drawLightIndicator(canvas)
             self.drawWeather(canvas)
+            if (self.mediaStatus):
+               self.drawMedia(canvas)
+               self.drawProgress(canvas)
+            else:   
+               self.drawRecipe(canvas)
             time.sleep(0.005)
             canvas = self.matrix.SwapOnVSync(canvas) 
             self.cycleDisplayThreshold -= 1
@@ -123,15 +156,22 @@ class LEDControl(SampleBase,Seizer):
         time.sleep(0.5)
 
     def handleMediaUpdate(self, message):
-        trimmedPayload = message[:-1]
-        if (message == ""):
-            self.songText = "Media Currently Paused"
+        trimmedPayload = message[:-1]        
         try:
-            artist,song = trimmedPayload.split("-")
-            self.songText = (song[1:])#removing last char as it is new line
-            self.artistText = (artist)
+	    songAndArtist,self.progress = trimmedPayload.split("::")
+            if (songAndArtist == ""):
+               self.progress = "0"
+               self.songText = ""
+               self.mediaStatus = False
+            else:
+               self.mediaStatus = True
+               self.artistX = 2
+               self.songX = 2
+               artist,song = songAndArtist.split("-")
+               self.songText = (song[1:])#removing last char as it is new line
+               self.artistText = (artist)
         except:#catches exception if split fails
-            self.songText = trimmedPayload[1:]
+            self.songText = songAndArtist[1:]
 
     
     def handleLightsUpdate(self, message):
@@ -161,14 +201,19 @@ class LEDControl(SampleBase,Seizer):
         super(LEDControl,self).__init__()
         self.configureSeizer(interestedIdentifiers,True)
 
-        self.songText = "Media Currently Paused"
+        self.songText = ""
         self.artistText = ""
         self.lightStatus = False
+        self.mediaStatus = False
         self.timeText = ""
         self.minTemp = ""
         self.maxTemp = ""
         self.currentTemp = ""
+	self.progress = "0"
 	self.cycleDisplayThreshold = 60
+        self.recipeIndex = 0
+        self.recipeList = ["Quiche","Risotto","Soup","Prawn Pasta","Stew","Lasagne","Pasta Bake","Pulled Pork","Baked Potato","Sweet & Sour Chicken","Spag bol","Quorn and Chips","Chicken Teriyaki","Feta courgettes","Mac 'n' Cheese","Blackened Chicken","Chickpeas","Fajitas"]
+
         self.mediaQueue = Queue()
         self.timeQueue = Queue()
         self.lightsQueue = Queue()
