@@ -128,32 +128,32 @@ class LEDControl(SampleBase,Seizer):
 	time.sleep(0.005)
 
     def monitorMediaQueue(self):
-        while (True):
-            if (not self.mediaQueue.empty()):
-                message = self.mediaQueue.get_nowait()
-                self.handleMediaUpdate(message)
-        time.sleep(0.5)
-
+	while (True):
+		if (not self.mediaQueue.empty()):
+			message = self.mediaQueue.get_nowait()
+			self.handleMediaUpdate(message)
+		time.sleep(0.5)
+	
     def monitorLightsQueue(self):
-        while (True):
-            if (not self.lightsQueue.empty()):
-                message = self.lightsQueue.get_nowait()
-                self.handleLightsUpdate(message)
-        time.sleep(0.5)
+	while (True):
+		if (not self.lightsQueue.empty()):
+			message = self.lightsQueue.get_nowait()
+			self.handleLightsUpdate(message)
+		time.sleep(0.5)
 
     def monitorTimeQueue(self):
-        while(True):
-            if (not self.timeQueue.empty()):
-                message = self.timeQueue.get_nowait()
-                self.handleTimeUpdate(message)
-        time.sleep(0.5)
+	while(True):
+		if (not self.timeQueue.empty()):
+			message = self.timeQueue.get_nowait()
+			self.handleTimeUpdate(message)
+		time.sleep(0.5)
 
     def monitorWeatherQueue(self):
-        while(True):
-            if (not self.weatherQueue.empty()):
-                message = self.weatherQueue.get_nowait()
-                self.handleWeatherUpdate(message)
-        time.sleep(0.5)
+	while(True):
+		if (not self.weatherQueue.empty()):
+			message = self.weatherQueue.get_nowait()
+			self.handleWeatherUpdate(message)
+		time.sleep(0.5)
 
     def handleMediaUpdate(self, message):
         trimmedPayload = message[:-1]        
