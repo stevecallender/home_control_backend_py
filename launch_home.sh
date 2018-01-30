@@ -18,6 +18,6 @@ python python_workspace/home_control_backend_py/PlugDriver.py &
 
 #node
 sleep 10
-cd HAP-NodeJS
-sudo rm -rf perist
-sudo node Core.js
+#cd HAP-NodeJS
+#sudo rm -rf perist
+#sudo node Core.js
