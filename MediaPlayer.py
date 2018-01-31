@@ -11,9 +11,9 @@ class MediaPlayer(Caster,Seizer):
 		super(MediaPlayer,self).__init__()
 		self.configureSeizer(interestedIdentifiers,True)
                 self.configureCaster(ownIdentifier,True)		
-		self.morningMusic   = "Classical\ \(by\ stevecallender\)"
-		self.eveningMusic   = "Spoon\ City\ Bitch\ \(by\ stevecallender\)"
-		self.afternoonMusic = "Spoon\ City\ Bitch\ \(by\ stevecallender\)" 
+		self.morningMusic   = "Spoon\ City\ Bitch\ \(by\ stevecallender\)"
+		self.eveningMusic   = "Lax\ \(by\ stevecallender\)"
+		self.afternoonMusic = "Lax\ \(by\ stevecallender\)" 
 		self.morningRadio   = "radio4"
 		self.afternoonRadio = "radio4"
 		self.eveningRadio   = "radio4"
@@ -27,7 +27,7 @@ class MediaPlayer(Caster,Seizer):
 		time.sleep(1)
 		subprocess.Popen(["mpc repeat true"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
-		subprocess.Popen(["mpc volume 18"], stdout=subprocess.PIPE, shell=True).communicate()
+		subprocess.Popen(["mpc volume 100"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
 
 
@@ -69,9 +69,15 @@ class MediaPlayer(Caster,Seizer):
 			self.isPlaying  = False
 	
 	def handlePlayInfo(self, info):
-		if info != self.currentInfo:
-			self.cast(info)
-			self.currentInfo = info
+		try:
+			songAndArtist = info.split("\n")[0]
+			progress = ((info.split("\n")[1]).split("(")[-1]).split("%")[0]
+			payload = songAndArtist + "::" + progress
+			self.cast(payload)
+			print payload
+		except:
+			print "exception caught!"
+			return
 
 	def parseCommand(self, command):
 		if command == "play":
@@ -106,7 +112,7 @@ class MediaPlayer(Caster,Seizer):
 		while True:
 			[header, payload] = self.seize(False)
 			self.parseCommand(payload) 
-			(out, err) = subprocess.Popen(["mpc current"], stdout=subprocess.PIPE, shell=True).communicate()
+			(out, err) = subprocess.Popen(["mpc status"], stdout=subprocess.PIPE, shell=True).communicate()
 			self.handlePlayInfo(out)
 			time.sleep(3)
 			
