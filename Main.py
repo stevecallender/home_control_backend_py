@@ -31,8 +31,11 @@ class LEDControl(SampleBase,Seizer):
 
 
     def drawProgress(self, canvas):
-	progressInt = int(self.progress)
-        progressLength = canvas.width * (progressInt/100.0)
+	try:
+		progressInt = int(self.progress)
+        except:
+		progressInt = 0
+	progressLength = canvas.width * (progressInt/100.0)
         for x in range(0, int(progressLength)):
            canvas.SetPixel(x, canvas.height-1, 80, 30, 0)
 
@@ -125,7 +128,7 @@ class LEDControl(SampleBase,Seizer):
                 self.lightsQueue.put(payload)
             elif header == "WeatherInfo":
                 self.weatherQueue.put(payload)
-	time.sleep(0.005)
+            time.sleep(0.005)
 
     def monitorMediaQueue(self):
 	while (True):
@@ -156,9 +159,11 @@ class LEDControl(SampleBase,Seizer):
 		time.sleep(0.5)
 
     def handleMediaUpdate(self, message):
-        trimmedPayload = message[:-1]        
+                
+        self.mediaStatus = (message != "")
+        
         try:
-	    songAndArtist,self.progress = trimmedPayload.split("::")
+	    songAndArtist,self.progress = message.split("::")
             if (songAndArtist == ""):
                self.progress = "0"
                self.songText = ""
@@ -171,7 +176,7 @@ class LEDControl(SampleBase,Seizer):
                self.songText = (song[1:])#removing last char as it is new line
                self.artistText = (artist)
         except:#catches exception if split fails
-            self.songText = songAndArtist[1:]
+            self.songText = message[1:]
 
     
     def handleLightsUpdate(self, message):
