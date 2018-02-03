@@ -70,8 +70,11 @@ class LEDControl(SampleBase,Seizer):
     def drawMedia(self,canvas):
         font = graphics.Font()
         font.LoadFont("../fonts/5x8.bdf")
-        lenArtist = graphics.DrawText(canvas, font, self.artistX, self.artistY, self.mediaColor, self.artistText)
-        lenSong = graphics.DrawText(canvas, font, self.songX, self.songY, self.mediaColor, self.songText)        
+        try:
+            lenArtist = graphics.DrawText(canvas, font, self.artistX, self.artistY, self.mediaColor, self.artistText)
+            lenSong = graphics.DrawText(canvas, font, self.songX, self.songY, self.mediaColor, self.songText)        
+        except:
+            print "Error drawing song or artist"
         if lenSong > 60:
             self.songX -= 1
             if (self.songX + lenSong < 0):
@@ -159,20 +162,21 @@ class LEDControl(SampleBase,Seizer):
 		time.sleep(0.5)
 
     def handleMediaUpdate(self, message):
-                
         self.mediaStatus = (message != "")
+	self.mediaStatus = (message != self.prevMessage) 
+        self.prevMessage = message
         
         try:
 	    songAndArtist,self.progress = message.split("::")
             if (songAndArtist == ""):
                self.progress = "0"
                self.songText = ""
-               self.mediaStatus = False
             else:
-               self.mediaStatus = True
                self.artistX = 2
                self.songX = 2
-               artist,song = songAndArtist.split("-")
+               splitArray = songAndArtist.split("-")
+               artist = splitArray[0]
+               song = splitArray[-1]
                self.songText = (song[1:])#removing last char as it is new line
                self.artistText = (artist)
         except:#catches exception if split fails
@@ -218,6 +222,7 @@ class LEDControl(SampleBase,Seizer):
 	self.cycleDisplayThreshold = 60
         self.recipeIndex = 0
         self.recipeList = ["Quiche","Risotto","Soup","Prawn Pasta","Stew","Lasagne","Pasta Bake","Pulled Pork","Baked Potato","Sweet & Sour Chicken","Spag bol","Quorn and Chips","Chicken Teriyaki","Feta courgettes","Mac 'n' Cheese","Blackened Chicken","Chickpeas","Fajitas"]
+        self.prevMessage = ""
 
         self.mediaQueue = Queue()
         self.timeQueue = Queue()
