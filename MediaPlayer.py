@@ -27,7 +27,7 @@ class MediaPlayer(Caster,Seizer):
 		time.sleep(1)
 		subprocess.Popen(["mpc repeat true"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
-		subprocess.Popen(["mpc volume 100"], stdout=subprocess.PIPE, shell=True).communicate()
+		subprocess.Popen(["mpc volume 30"], stdout=subprocess.PIPE, shell=True).communicate()
 		time.sleep(1)
 
 
@@ -40,9 +40,12 @@ class MediaPlayer(Caster,Seizer):
 		time.sleep(1)
 		subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
 		self.isPlaying  = True
+		if (playlist == self.morningRadio or playlist == self.afternoonRadio or playlist == self.eveningRadio):
+			subprocess.Popen(["mpc volume 100"], stdout=subprocess.PIPE, shell=True).communicate()
 
         def play(self):
                 if not self.isPlaying :
+			self.freshSetup()
                         self.playPlaylist(self.eveningMusic)	
 
 	def next(self):
