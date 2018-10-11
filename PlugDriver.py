@@ -24,7 +24,7 @@ class PlugDriver(Seizer):
                 elif header == "livingRoomOff": 
                         self.livingRoomLights.off()
 		else:
-			print "Unrecognised command"
+			print "Unrecognised command: " + header + "."
 
 	def allOff(self):
 		self.livingRoomLights.off()
