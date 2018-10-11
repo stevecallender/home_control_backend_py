@@ -6,7 +6,7 @@ var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
 
 var LightController = {
-  name: "Living Room Lights", //name of accessory
+  name: "Living Room", //name of accessory
   pincode: "031-45-154",
   username: "FA:3C:ED:5A:1A:1A", // MAC like address used by HomeKit to differentiate accessories. 
   manufacturer: "HAP-NodeJS", //manufacturer (optional)

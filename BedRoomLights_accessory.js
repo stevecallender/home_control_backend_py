@@ -6,7 +6,7 @@ var Characteristic = require('../').Characteristic;
 var uuid = require('../').uuid;
 
 var LightController = {
-  name: "Bedroom Lights", //name of accessory
+  name: "Bedroom", //name of accessory
   pincode: "031-45-154",
   username: "FA:3C:ED:5A:1A:FA", // MAC like address used by HomeKit to differentiate accessories. 
   manufacturer: "HAP-NodeJS", //manufacturer (optional)
@@ -104,13 +104,13 @@ lightAccessory
     // after getting the request instead of after finishing it. This avoids blocking other
     // requests from HomeKit.
     if (value) {
-                         PythonShell.run('bedroomOn.py', function (err) {
+                         PythonShell.run('bedRoomOn.py', function (err) {
                                 if (err){console.log(err);}
                                 console.log('On Success');
                         });
     } 
     else{
-                        PythonShell.run('bedroomOff.py', function (err) {
+                        PythonShell.run('bedRoomOff.py', function (err) {
                                 if (err){console.log(err);}
                                 console.log("Off Success");
                         });
