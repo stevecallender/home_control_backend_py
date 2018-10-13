@@ -17,6 +17,7 @@ class Seizer(object):
 			for ip in range(1,20):
 				self.subscriber.connect("tcp://192.168.1."+str(ip)+":"+port)
 			self.subscriber.connect("tcp://192.168.1.75:"+port) #hack for non-static mopoidy ip
+			self.subscriber.connect("tcp://192.168.1.102:"+port) #hack for non-static mopoidy ip
 
 	def configureSeizer(self,identifiers,shouldLog = False):
 		self.identifiers = identifiers

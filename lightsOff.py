@@ -11,7 +11,6 @@ class Lights(Caster):
 
 	def sendMessage(self):
        		self.castWithHeader("LightsCommand","allOff")
-		self.castWithHeader("LightsCommand","allOff")
                 time.sleep(0.5)
 		self.castWithHeader("LightsCommand","allOff")
                 time.sleep(2)

@@ -5,6 +5,7 @@ In order to connect the pi to bluetooth it is necessary to set the sink to be th
 
 Connect to bluetooth device and then run this command pacmd "set-default-sink bluez_sink.FC_58_FA_6C_42_43"
 
+For Energenie API see: https://gpiozero.readthedocs.io/en/stable/api_boards.html?highlight=energenie#energenie
 
 Note if using the 3.5mm jack and want to adjust the volume via command line then run the following commands:
 amixer scontrols

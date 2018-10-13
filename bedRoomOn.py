@@ -10,16 +10,12 @@ class Lights(Caster):
                 self.configureCaster(ownIdentifier,True)
 
         def sendMessage(self):
-                self.castWithHeader("LightsCommand","allOn")
-		time.sleep(0.5)
-                self.castWithHeader("LightsCommand","allOn")
-		time.sleep(2)
-                self.castWithHeader("LightsCommand","allOn")
+                self.castWithHeader("LightsCommand","bedRoomOn")
+                time.sleep(0.5)
+                self.castWithHeader("LightsCommand","bedRoomOn")
+                time.sleep(2)
+                self.castWithHeader("LightsCommand","bedRoomOn")
 
 if __name__ == "__main__":
         lights = Lights()
         lights.sendMessage()
-
-
-
-

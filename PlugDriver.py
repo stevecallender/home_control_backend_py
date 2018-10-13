@@ -7,15 +7,32 @@ class PlugDriver(Seizer):
 		interestedIdentifiers = ["LightsCommand"]
 		super(PlugDriver,self).__init__()
 		self.configureSeizer(interestedIdentifiers,True)
-		self.allLights = Energenie(1)
+		self.livingRoomLights = Energenie(1)
+		self.bedRoomLights = Energenie(2)
 
 	def handleLightsCommand(self, header):
 		if header == "allOn":
-			self.allLights.on()
+			self.allOn()
+                elif header == "bedRoomOn": 
+                        self.bedRoomLights.on() 
+                elif header == "livingRoomOn":
+                        self.livingRoomLights.on()
 		elif header == "allOff":
-			self.allLights.off()
+			self.allOff()
+		elif header == "bedRoomOff":
+			self.bedRoomLights.off()
+                elif header == "livingRoomOff": 
+                        self.livingRoomLights.off()
 		else:
-			print "Unrecognised command"
+			print "Unrecognised command: " + header + "."
+
+	def allOff(self):
+		self.livingRoomLights.off()
+		self.bedRoomLights.off()
+
+	def allOn(self):
+		self.livingRoomLights.on()
+		self.bedRoomLights.on()
 
 	def run(self):
 		while True:
