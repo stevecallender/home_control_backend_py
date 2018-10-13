@@ -7,6 +7,7 @@ import time
 from samplebase import SampleBase
 from rgbmatrix import graphics
 from Seizing import *
+import math
 
 class LEDControl(SampleBase,Seizer):
 
@@ -70,11 +71,8 @@ class LEDControl(SampleBase,Seizer):
     def drawMedia(self,canvas):
         font = graphics.Font()
         font.LoadFont("../fonts/5x8.bdf")
-        try:
-            lenArtist = graphics.DrawText(canvas, font, self.artistX, self.artistY, self.mediaColor, self.artistText)
-            lenSong = graphics.DrawText(canvas, font, self.songX, self.songY, self.mediaColor, self.songText)        
-        except:
-            print "Error drawing song or artist"
+        lenArtist   = graphics.DrawText(canvas, font, self.artistX, self.artistY, self.mediaColor, self.artistText)
+        lenSong   = graphics.DrawText(canvas, font, self.songX, self.songY, self.mediaColor, self.songText)
         if lenSong > 60:
             self.songX -= 1
             if (self.songX + lenSong < 0):
@@ -105,20 +103,25 @@ class LEDControl(SampleBase,Seizer):
     def run(self):
         canvas = self.matrix.CreateFrameCanvas()
         self.initDraw(canvas)
+        initialise = True
         while (True):
-            canvas.Clear()
-            self.drawTime(canvas)
-            self.drawLightIndicator(canvas)
-            self.drawWeather(canvas)
-            if (self.mediaStatus):
-               self.drawMedia(canvas)
-               self.drawProgress(canvas)
-            else:   
-               self.drawRecipe(canvas)
+            elementsReceived = (self.weatherReceived and self.timeReceived)
+            if (elementsReceived):
+               canvas.Clear()
+               self.drawTime(canvas)
+               self.drawWeather(canvas)
+               if (self.mediaStatus):
+                  self.drawMedia(canvas)
+                  self.drawProgress(canvas)
+               else:   
+                  self.drawRecipe(canvas)
+               self.drawLightIndicator(canvas)
+            else:
+               self.runLoadingScreen(initialise,canvas)
             time.sleep(0.005)
             canvas = self.matrix.SwapOnVSync(canvas) 
             self.cycleDisplayThreshold -= 1
-
+            initialise = False
 
     def monitorInBound(self):
         while True:
@@ -181,7 +184,8 @@ class LEDControl(SampleBase,Seizer):
                self.artistText = (artist)
         except:#catches exception if split fails
             self.songText = message[1:]
-
+        self.songText = self.songText.decode('utf-8')
+        self.artistText = self.artistText.decode('utf-8')
     
     def handleLightsUpdate(self, message):
         self.lightStatus = (message == "allOn")
@@ -196,13 +200,61 @@ class LEDControl(SampleBase,Seizer):
         if len(hours) < 2:
             hours = "0"+hours
         self.timeText = (hours+":"+minutes)
-
+        self.timeReceived = True
+        print "Time received"
 
     def handleWeatherUpdate(self,message):
         splitWeather = message.split(",")
         self.minTemp = splitWeather[1]
         self.maxTemp = splitWeather[2]
         self.currentTemp = splitWeather[0]
+        self.weatherReceived = True
+        print "Weather received"
+
+    def rotate(self, x, y, angle):
+        return {
+            "new_x": x * math.cos(angle) - y * math.sin(angle),
+            "new_y": x * math.sin(angle) + y * math.cos(angle)
+        }
+
+    def scale_col(self, val, lo, hi):
+        if val < lo:
+            return 0
+        if val > hi:
+            return 255
+        return 255 * (val - lo) / (hi - lo)
+
+    def runLoadingScreen(self,initialise,canvas):
+        if (initialise):
+           self.cent_x = self.matrix.width / 2
+           self.cent_y = self.matrix.height / 2
+
+           rotate_square = min(self.matrix.width, self.matrix.height) * 1.41
+           self.min_rotate = self.cent_x - rotate_square / 2
+           self.max_rotate = self.cent_x + rotate_square / 2
+
+           display_square = min(self.matrix.width, self.matrix.height) * 0.7
+           self.min_display = self.cent_x - display_square / 2
+           self.max_display = self.cent_x + display_square / 2
+
+           self.deg_to_rad = 2 * 3.14159265 / 360
+           self.rotation = 0        
+
+        self.rotation += 1
+        self.rotation %= 360
+
+        for x in range(int(self.min_rotate), int(self.max_rotate)):
+           for y in range(int(self.min_rotate), int(self.max_rotate)):
+              ret = self.rotate(x - self.cent_x, y - self.cent_x, self.deg_to_rad * self.rotation)
+              rot_x = ret["new_x"]
+              rot_y = ret["new_y"]
+
+              if x >= self.min_display and x < self.max_display and y >= self.min_display and y < self.max_display:
+                 canvas.SetPixel(rot_x + self.cent_x, rot_y + self.cent_y, self.scale_col(x, self.min_display, self.max_display), 255 - self.scale_col(y, self.min_display, self.max_display), self.scale_col(y, self.min_display, self.max_display))
+              else:
+                 canvas.SetPixel(rot_x + self.cent_x, rot_y + self.cent_y, 0, 0, 0)
+
+
 
     def __init__(self):
 
@@ -223,6 +275,9 @@ class LEDControl(SampleBase,Seizer):
         self.recipeIndex = 0
         self.recipeList = ["Quiche","Risotto","Soup","Prawn Pasta","Stew","Lasagne","Pasta Bake","Pulled Pork","Baked Potato","Sweet & Sour Chicken","Spag bol","Quorn and Chips","Chicken Teriyaki","Feta courgettes","Mac 'n' Cheese","Blackened Chicken","Chickpeas","Fajitas"]
         self.prevMessage = ""
+
+        self.weatherReceived = False
+        self.timeReceived = False
 
         self.mediaQueue = Queue()
         self.timeQueue = Queue()
