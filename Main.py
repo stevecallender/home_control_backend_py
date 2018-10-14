@@ -14,13 +14,19 @@ class LEDControl(SampleBase,Seizer):
     def initDraw(self,canvas):
         self.artistX = 2
         self.songX = 2
+        self.timeX = 2
+        self.dateX = 2
         self.artistY = canvas.height - 12
         self.songY = canvas.height - 2
-        self.mediaColor = graphics.Color(232, 81, 0)
+        self.dateY = canvas.height - 4
+        self.timeY = 11
+
+        self.mediaColor = graphics.Color(239, 133, 33)
         self.timeColor = graphics.Color(113, 12, 214) 
         self.minColor = graphics.Color(102, 178, 255) 
         self.maxColor = graphics.Color(255, 102, 102) 
         self.currentColor = graphics.Color(113, 12, 214) 
+        self.dateColor = graphics.Color(42, 142, 44) 
 	
 
     def drawLightIndicator(self, canvas):
@@ -43,9 +49,20 @@ class LEDControl(SampleBase,Seizer):
     def drawTime(self,canvas):
         font = graphics.Font()
         font.LoadFont("../fonts/helvR12.bdf")
-        x = 2
-        y = 11
-        graphics.DrawText(canvas, font, x, y, self.timeColor, self.timeText)
+        graphics.DrawText(canvas, font, self.timeX, self.timeY, self.timeColor, self.timeText)
+
+    def drawDate(self,canvas):
+        font = graphics.Font()
+#        font.LoadFont("../fonts/helvR12.bdf")
+        font.LoadFont("../fonts/5x8.bdf")
+        graphics.DrawText(canvas, font, self.dateX, self.dateY, self.dateColor, self.dateText)
+
+
+    def monthConverter(self,dateValue):
+        index = int(dateValue)
+        months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+        return months[index-1]
+
 
     def drawWeather(self,canvas):
 	weather = self.currentTemp
@@ -114,7 +131,7 @@ class LEDControl(SampleBase,Seizer):
                   self.drawMedia(canvas)
                   self.drawProgress(canvas)
                else:   
-                  self.drawRecipe(canvas)
+                  self.drawDate(canvas)
                self.drawLightIndicator(canvas)
             else:
                self.runLoadingScreen(initialise,canvas)
@@ -195,11 +212,14 @@ class LEDControl(SampleBase,Seizer):
         splitTime = message.split(":")
         hours = splitTime[0]
         minutes = splitTime[1]
+        day = splitTime[2]
+        month = self.monthConverter(splitTime[3])
         if len(minutes) < 2:
             minutes = "0"+minutes
         if len(hours) < 2:
             hours = "0"+hours
         self.timeText = (hours+":"+minutes)
+        self.dateText = (day+" "+month)
         self.timeReceived = True
         print "Time received"
 
@@ -267,6 +287,7 @@ class LEDControl(SampleBase,Seizer):
         self.lightStatus = False
         self.mediaStatus = False
         self.timeText = ""
+        self.dateText = ""
         self.minTemp = ""
         self.maxTemp = ""
         self.currentTemp = ""
