@@ -46,6 +46,14 @@ class LEDControl(SampleBase,Seizer):
         for x in range(0, int(progressLength)):
            canvas.SetPixel(x, canvas.height-1, 80, 30, 0)
 
+    def drawSeperator(self, drawBoth, canvas):
+        for y in range(3, (canvas.height/2) -5):
+           canvas.SetPixel(canvas.width - 28, y, 20, 60, 120)
+        
+        if (drawBoth):
+           for x in range(4, canvas.width - 4):
+              canvas.SetPixel(x, canvas.height/2,20, 60, 120)
+
     def drawTime(self,canvas):
         font = graphics.Font()
         font.LoadFont("../fonts/helvR12.bdf")
@@ -53,16 +61,23 @@ class LEDControl(SampleBase,Seizer):
 
     def drawDate(self,canvas):
         font = graphics.Font()
-#        font.LoadFont("../fonts/helvR12.bdf")
         font.LoadFont("../fonts/5x8.bdf")
         graphics.DrawText(canvas, font, self.dateX, self.dateY, self.dateColor, self.dateText)
 
-
-    def monthConverter(self,dateValue):
-        index = int(dateValue)
+    def monthConverter(self,dateString):
+        index = int(dateString)
         months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
         return months[index-1]
 
+    def dayConverter(self,dayString):
+        day = int(dayString)
+        if (day == 1 or day == 21 or day == 31):
+            return dayString + "st"
+        if (day == 2 or day == 22):
+            return dayString + "nd"
+        if (day == 3 or day == 23):
+            return daystring + "rd"        
+        return dayString + "th"
 
     def drawWeather(self,canvas):
 	weather = self.currentTemp
@@ -79,6 +94,8 @@ class LEDControl(SampleBase,Seizer):
         font = graphics.Font()
         font.LoadFont("../fonts/helvR12.bdf")
         weather = weather[:3]
+        if (len(weather)>3):
+           weather = weather.split(".")[0]
         weather += "c"
         x = 40
         y = 11
@@ -116,7 +133,6 @@ class LEDControl(SampleBase,Seizer):
             self.songX = 2
             self.artistX = 2
 
-
     def run(self):
         canvas = self.matrix.CreateFrameCanvas()
         self.initDraw(canvas)
@@ -132,6 +148,7 @@ class LEDControl(SampleBase,Seizer):
                   self.drawProgress(canvas)
                else:   
                   self.drawDate(canvas)
+               self.drawSeperator(not self.mediaStatus,canvas)
                self.drawLightIndicator(canvas)
             else:
                self.runLoadingScreen(initialise,canvas)
@@ -212,7 +229,7 @@ class LEDControl(SampleBase,Seizer):
         splitTime = message.split(":")
         hours = splitTime[0]
         minutes = splitTime[1]
-        day = splitTime[2]
+        day = self.dayConverter(splitTime[2])
         month = self.monthConverter(splitTime[3])
         if len(minutes) < 2:
             minutes = "0"+minutes
@@ -221,7 +238,6 @@ class LEDControl(SampleBase,Seizer):
         self.timeText = (hours+":"+minutes)
         self.dateText = (day+" "+month)
         self.timeReceived = True
-        print "Time received"
 
     def handleWeatherUpdate(self,message):
         splitWeather = message.split(",")
@@ -229,7 +245,6 @@ class LEDControl(SampleBase,Seizer):
         self.maxTemp = splitWeather[2]
         self.currentTemp = splitWeather[0]
         self.weatherReceived = True
-        print "Weather received"
 
     def rotate(self, x, y, angle):
         return {
