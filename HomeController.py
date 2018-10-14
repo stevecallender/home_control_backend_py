@@ -45,7 +45,7 @@ class HomeController(Seizer,Caster):
 
 		
 		elif payload == "weekend morning":		
-			self.castWithHeader("MediaCommand","playPlaylist afternoon")
+			self.castWithHeader("MediaCommand","playPlaylist morning")
 			self.castWithHeader("LightsCommand","allOn")
 			self.shouldReact = True
 						
@@ -98,7 +98,7 @@ class HomeController(Seizer,Caster):
 			if self.shouldReact:
 				if not self.emmaAtHome:
 					self.castWithHeader("MediaCommand","playPlaylist evening")
-					self.castWithHeader("LightsCommand","allOn")
+					self.castWithHeader("LightsCommand","livingRoomOn")
 		
 		elif payload == "emma joined":
 			print "Emma joined"
@@ -107,7 +107,7 @@ class HomeController(Seizer,Caster):
 			if self.shouldReact:
 				if not self.steveAtHome:
 					self.castWithHeader("MediaCommand","playPlaylist evening")
-					self.castWithHeader("LightsCommand","allOn")
+					self.castWithHeader("LightsCommand","livingRoomOn")
 		
 		elif payload == "steve left":
 			print "Steve Left"
