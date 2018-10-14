@@ -14,7 +14,7 @@ class TimeMonitor(Caster):
 	def run(self):
 		while True:
 			currentTime = datetime.datetime.now()
-			self.castWithHeader("TimeValue",str(currentTime.hour)+":"+str(currentTime.minute))
+			self.castWithHeader("TimeValue",str(currentTime.hour)+":"+str(currentTime.minute)+":"+str(currentTime.day)+":"+str(currentTime.month)+":"+str(currentTime.year))
 			# WEEKEND
 			if currentTime.isoweekday() == 6 or currentTime.isoweekday() == 7:
 				if currentTime.hour >= 9 and currentTime.hour <= 13:
