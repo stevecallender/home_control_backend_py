@@ -66,7 +66,7 @@ class LEDControl(SampleBase,Seizer):
 
     def monthConverter(self,dateString):
         index = int(dateString)
-        months = ["January","February","March","April","May","June","July","August","September","October","November","December"]
+        months = ["January","February","March","April","May","June","July","August","Sept","October","Nov","Dec"]
         return months[index-1]
 
     def dayConverter(self,dayString):
@@ -76,7 +76,7 @@ class LEDControl(SampleBase,Seizer):
         if (day == 2 or day == 22):
             return dayString + "nd"
         if (day == 3 or day == 23):
-            return daystring + "rd"        
+            return dayString + "rd"        
         return dayString + "th"
 
     def drawWeather(self,canvas):
@@ -188,6 +188,7 @@ class LEDControl(SampleBase,Seizer):
 	while(True):
 		if (not self.timeQueue.empty()):
 			message = self.timeQueue.get_nowait()
+			print message
 			self.handleTimeUpdate(message)
 		time.sleep(0.5)
 
