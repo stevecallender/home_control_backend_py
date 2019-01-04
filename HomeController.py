@@ -132,6 +132,7 @@ class HomeController(Seizer,Caster):
 				self.handleTimeUpdate(payload)
 			elif header == "NetworkUpdate":
 				self.handleNetworkUpdate(payload)		
+				time.sleep(0.5)
 				
 				
 if __name__ == "__main__":
