@@ -1,8 +1,10 @@
-#from Casting import *
-#from Seizing import *
+from Casting import *
+from Seizing import *
 import subprocess
 import time
-import requests
+import sys
+import spotipy
+import spotipy.util as util
 
 class MediaPlayer(Caster,Seizer):
 	
@@ -116,8 +118,22 @@ if __name__ == "__main__":
 #	mediaPlayer = MediaPlayer()
 #	mediaPlayer.run()
 
-       r = requests.get("https://api.spotify.com/v1/me/player/devices")
-       
-       print(r.status_code)
-       print(r.headers)
-       print(r.content)
+   scope = 'user-library-read user-modify-playback-state user-read-playback-state'
+
+   username = "Flatpi"
+
+   token = util.prompt_for_user_token(username, scope)
+
+   if token:
+       sp = spotipy.Spotify(auth=token)
+       results = sp.current_user_saved_tracks()
+       for item in results['items']:
+           track = item['track']
+           print track['name'] + ' - ' + track['artists'][0]['name']
+       user = sp.user(username)
+       print(user)
+
+       print sp.devices()
+       sp.start_playback(device_id='f9acccf475ffa3ab406c14e1d01de50768dc4ccc')
+   else:
+       print "Can't get token for", username

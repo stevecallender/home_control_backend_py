@@ -127,3 +127,10 @@ More detail: https://learn.pimoroni.com/tutorial/phat/raspberry-pi-phat-dac-inst
 Weather info:
 
 sudo pip install pyowm
+
+
+Spotify Connect to allow playback via Echo
+
+Spotipy repo used for this capability, see - https://spotipy.readthedocs.io/en/latest/#
+
+Only gotchas are to ensure that the client id secret and callback uri are set up as system vars, then the call back uri needs added to the spotify dash - just use local host

@@ -25,8 +25,8 @@ class NetworkMonitor(Caster):
 		emmaPresent = False
 
 
-		emmaThreshold = 200
-		steveThreshold = 200
+		emmaThreshold = 100
+		steveThreshold = 100
 	
 	
 		while True:
