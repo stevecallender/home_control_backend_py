@@ -3,8 +3,7 @@ from Seizing import *
 import subprocess
 import time
 import sys
-import spotipy
-import spotipy.util as util
+form SpotifyConnection import * 
 
 class MediaPlayer(Caster,Seizer):
 	
@@ -12,24 +11,23 @@ class MediaPlayer(Caster,Seizer):
 		ownIdentifier = "MediaInfo"
 		interestedIdentifiers = ["MediaCommand"]
 		super(MediaPlayer,self).__init__()
-		self.configureSeizer(interestedIdentifiers,True)
-                self.configureCaster(ownIdentifier,True)		
+		self.configureSeizer(interestedIdentifiers,True)         
+        self.configureCaster(ownIdentifier,True)		
 		self.morningMusic   = "Spoon\ City\ Bitch\ \(by\ stevecallender\)"
 		self.eveningMusic   = "Lax\ \(by\ stevecallender\)"
 		self.afternoonMusic = "Lax\ \(by\ stevecallender\)" 
 		self.morningRadio   = "radio4"
 		self.afternoonRadio = "radio4"
 		self.eveningRadio   = "radio4"
+        self.sp = SpotifyConnection()
 		self.freshSetup()
-
-		
-
-
+        
 
 	def freshSetup(self):
 
 		self.isPlaying = False
 		self.currentInfo = ""
+        sp.play()
 
 	def playPlaylist(self,playlist):
 		self.freshSetup()
@@ -105,12 +103,15 @@ class MediaPlayer(Caster,Seizer):
 		if command == "prev":
 			self.prev()
 			
-			
+    
+    def getPlayInfo(self):
+        return "Test"
+    
 	def run(self):
 		while True:
 			[header, payload] = self.seize(False)
 			self.parseCommand(payload) 
-			(out, err) = subprocess.Popen(["mpc status"], stdout=subprocess.PIPE, shell=True).communicate()
+			out = self.getPlayInfo
 			self.handlePlayInfo(out)
 			time.sleep(3)
 			
@@ -118,25 +119,7 @@ class MediaPlayer(Caster,Seizer):
 			
 			
 if __name__ == "__main__":
-#	mediaPlayer = MediaPlayer()
-#	mediaPlayer.run()
+	mediaPlayer = MediaPlayer()
+	mediaPlayer.run()
 
-   scope = 'user-library-read user-modify-playback-state user-read-playback-state'
 
-   username = "Flatpi"
-
-   token = util.prompt_for_user_token(username, scope)
-
-   if token:
-       sp = spotipy.Spotify(auth=token)
-       results = sp.current_user_saved_tracks()
-       for item in results['items']:
-           track = item['track']
-           print track['name'] + ' - ' + track['artists'][0]['name']
-       user = sp.user(username)
-       print(user)
-
-       print sp.devices()
-       sp.start_playback(device_id='f9acccf475ffa3ab406c14e1d01de50768dc4ccc')
-   else:
-       print "Can't get token for", username
