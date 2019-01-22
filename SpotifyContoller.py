@@ -3,91 +3,91 @@ from Seizing import *
 import subprocess
 import time
 import sys
-form SpotifyConnection import * 
+from SpotifyConnection import * 
 
 class MediaPlayer(Caster,Seizer):
-	
-	def __init__(self):
-		ownIdentifier = "MediaInfo"
-		interestedIdentifiers = ["MediaCommand"]
-		super(MediaPlayer,self).__init__()
-		self.configureSeizer(interestedIdentifiers,True)         
-        self.configureCaster(ownIdentifier,True)		
-		self.morningMusic   = "Spoon\ City\ Bitch\ \(by\ stevecallender\)"
-		self.eveningMusic   = "Lax\ \(by\ stevecallender\)"
-		self.afternoonMusic = "Lax\ \(by\ stevecallender\)" 
-		self.morningRadio   = "radio4"
-		self.afternoonRadio = "radio4"
-		self.eveningRadio   = "radio4"
+    
+    def __init__(self):
+        ownIdentifier = "MediaInfo"
+        interestedIdentifiers = ["MediaCommand"]
+        super(MediaPlayer,self).__init__()
+        self.configureSeizer(interestedIdentifiers,True)  
+        self.configureCaster(ownIdentifier,True)        
+        self.morningMusic   = "Spoon\ City\ Bitch\ \(by\ stevecallender\)"
+        self.eveningMusic   = "Lax\ \(by\ stevecallender\)"
+        self.afternoonMusic = "Lax\ \(by\ stevecallender\)" 
+        self.morningRadio   = "radio4"
+        self.afternoonRadio = "radio4"
+        self.eveningRadio   = "radio4"
         self.sp = SpotifyConnection()
-		self.freshSetup()
+        self.freshSetup()
         
 
-	def freshSetup(self):
+    def freshSetup(self):
 
-		self.isPlaying = False
-		self.currentInfo = ""
+        self.isPlaying = False
+        self.currentInfo = ""
         sp.play()
 
-	def playPlaylist(self,playlist):
-		self.freshSetup()
-		subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
+    def playPlaylist(self,playlist):
+        self.freshSetup()
+        subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
 
-		if (playlist == self.morningRadio or playlist == self.afternoonRadio or playlist == self.eveningRadio):
-			subprocess.Popen(["mpc volume 100"], stdout=subprocess.PIPE, shell=True).communicate()
+        if (playlist == self.morningRadio or playlist == self.afternoonRadio or playlist == self.eveningRadio):
+            subprocess.Popen(["mpc volume 100"], stdout=subprocess.PIPE, shell=True).communicate()
 
         def play(self):
                 if not self.isPlaying :
-			self.freshSetup()
-                        self.playPlaylist(self.eveningMusic)	
+            self.freshSetup()
+                        self.playPlaylist(self.eveningMusic)    
 
-	def next(self):
-		if self.isPlaying :
-			subprocess.Popen(["mpc next"], stdout=subprocess.PIPE, shell=True).communicate()
-		else:
-			subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
-			time.sleep(1)
-			subprocess.Popen(["mpc next"], stdout=subprocess.PIPE, shell=True).communicate()
-			self.isPlaying   = True
-	
-	def previous(self):
-		if self.isPlaying :
-			subprocess.Popen(["mpc prev"], stdout=subprocess.PIPE, shell=True).communicate()
-		else:
-			subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
-			time.sleep(1)
-			subprocess.Popen(["mpc prev"], stdout=subprocess.PIPE, shell=True).communicate()
-			self.isPlaying   = True
-	
-	def pause(self):
-		if self.isPlaying :
-			subprocess.Popen(["mpc pause"], stdout=subprocess.PIPE, shell=True).communicate()
-			self.isPlaying  = False
-	
-	def handlePlayInfo(self, info):
-		try:
-			songAndArtist = info.split("\n")[0]
-			progress = ((info.split("\n")[1]).split("(")[-1]).split("%")[0]
-			payload = songAndArtist + "::" + progress
-			self.cast(payload)
-			print payload
-		except:
-			print "exception caught!"
-			return
+    def next(self):
+        if self.isPlaying :
+            subprocess.Popen(["mpc next"], stdout=subprocess.PIPE, shell=True).communicate()
+        else:
+            subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
+            time.sleep(1)
+            subprocess.Popen(["mpc next"], stdout=subprocess.PIPE, shell=True).communicate()
+            self.isPlaying   = True
+    
+    def previous(self):
+        if self.isPlaying :
+            subprocess.Popen(["mpc prev"], stdout=subprocess.PIPE, shell=True).communicate()
+        else:
+            subprocess.Popen(["mpc play"], stdout=subprocess.PIPE, shell=True).communicate()
+            time.sleep(1)
+            subprocess.Popen(["mpc prev"], stdout=subprocess.PIPE, shell=True).communicate()
+            self.isPlaying   = True
+    
+    def pause(self):
+        if self.isPlaying :
+            subprocess.Popen(["mpc pause"], stdout=subprocess.PIPE, shell=True).communicate()
+            self.isPlaying  = False
+    
+    def handlePlayInfo(self, info):
+        try:
+            songAndArtist = info.split("\n")[0]
+            progress = ((info.split("\n")[1]).split("(")[-1]).split("%")[0]
+            payload = songAndArtist + "::" + progress
+            self.cast(payload)
+            print payload
+        except:
+            print "exception caught!"
+            return
 
-	def parseCommand(self, command):
-		if command == "play":
-			self.play()
-		if command.split(" ")[0] == "playPlaylist":
-			if command.split(" ") [-1] == "radio":
-				if command.split(" ")[1] == "morning":
-					self.playPlaylist(self.morningRadio)
-				elif command.split(" ")[1] == "afternoon":
-                        	        self.playPlaylist(self.afternoonRadio)
-				elif command.split(" ")[1] == "evening":
-                                	self.playPlaylist(self.eveningRadio)
-			else: 
-				if command.split(" ")[1] == "morning":
+    def parseCommand(self, command):
+        if command == "play":
+            self.play()
+        if command.split(" ")[0] == "playPlaylist":
+            if command.split(" ") [-1] == "radio":
+                if command.split(" ")[1] == "morning":
+                    self.playPlaylist(self.morningRadio)
+                elif command.split(" ")[1] == "afternoon":
+                                    self.playPlaylist(self.afternoonRadio)
+                elif command.split(" ")[1] == "evening":
+                                    self.playPlaylist(self.eveningRadio)
+            else: 
+                if command.split(" ")[1] == "morning":
                                         self.playPlaylist(self.morningMusic)
                                 elif command.split(" ")[1] == "afternoon":
                                         self.playPlaylist(self.afternoonMusic)
@@ -96,30 +96,30 @@ class MediaPlayer(Caster,Seizer):
 
 
 
-		if command == "pause":
-			self.pause()
-		if command == "next":
-			self.next()
-		if command == "prev":
-			self.prev()
-			
+        if command == "pause":
+            self.pause()
+        if command == "next":
+            self.next()
+        if command == "prev":
+            self.prev()
+            
     
     def getPlayInfo(self):
         return "Test"
     
-	def run(self):
-		while True:
-			[header, payload] = self.seize(False)
-			self.parseCommand(payload) 
-			out = self.getPlayInfo
-			self.handlePlayInfo(out)
-			time.sleep(3)
-			
-			
-			
-			
+    def run(self):
+        while True:
+            [header, payload] = self.seize(False)
+            self.parseCommand(payload) 
+            out = self.getPlayInfo
+            self.handlePlayInfo(out)
+            time.sleep(3)
+            
+            
+            
+            
 if __name__ == "__main__":
-	mediaPlayer = MediaPlayer()
-	mediaPlayer.run()
+    mediaPlayer = MediaPlayer()
+    mediaPlayer.run()
 
 
