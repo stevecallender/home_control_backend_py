@@ -22,6 +22,9 @@ class MediaPlayer(Caster,Seizer):
 		self.eveningRadio   = "radio4"
 		self.freshSetup()
 
+		
+
+
 
 	def freshSetup(self):
 
