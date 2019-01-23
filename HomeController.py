@@ -12,7 +12,7 @@ class HomeController(Seizer,Caster):
 		self.mediaCommand = "MediaCommand"
 		self.plugCommmand = "PlugCommand"
 		
-		interestedIdentifiers = ["TimeUpdate","NetworkUpdate","MediaInfo"]
+		interestedIdentifiers = ["TimeUpdate","NetworkUpdate"]
 
 		super(HomeController,self).__init__()		
 
