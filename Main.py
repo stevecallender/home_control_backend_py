@@ -205,20 +205,19 @@ class LEDControl(SampleBase,Seizer):
         self.prevMessage = message
         
         try:
-	    songAndArtist,self.progress = message.split("::")
-            if (songAndArtist == ""):
+            splitmessage = message.split("::")
+            self.songText = splitmessage[0]
+            self.artistText = splitmessage[1]
+            self.progress = splitmessage[2]
+            if (self.songText == ""):
                self.progress = "0"
                self.songText = ""
             else:
                self.artistX = 2
                self.songX = 2
-               splitArray = songAndArtist.split("-")
-               artist = splitArray[0]
-               song = splitArray[-1]
-               self.songText = (song[1:])#removing last char as it is new line
-               self.artistText = (artist)
-        except:#catches exception if split fails
-            self.songText = message[1:]
+        except :#catches exception if split fails
+            print "Exception caught splitting song data"
+            print message
         self.songText = self.songText.decode('utf-8')
         self.artistText = self.artistText.decode('utf-8')
     
