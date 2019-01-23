@@ -17,30 +17,21 @@ class SpotifyController(Caster,Seizer):
         self.eveningMusic   = "Lax"
         self.afternoonMusic = "Lax" 
         self.spotifyConnection = SpotifyConnection()
-        self.freshSetup()
         
 
-    def freshSetup(self):
-        self.isPlaying = False
-        self.currentInfo = ""
 
     def playPlaylist(self,playlist):
-        self.freshSetup()
-        self.play()
+        self.spotifyConnection.playPlaylist(playlist)
 
     def play(self):
-        if not self.isPlaying :
-            self.spotifyConnection.playPlaylist(self.afternoonMusic)
-            self.isPlaying = True
+        self.spotifyConnection.play()
 
     def pause(self):
-        if self.isPlaying:
-            self.spotifyConnection.pause()
-            self.isPlaying  = False
+        self.spotifyConnection.pause()
     
     def handlePlayInfo(self, infoDict):
         payload = infoDict['song'] +'::'+infoDict['artist']+'::'+infoDict['progress'] 
-        self.cast(payload)
+        self.cast(payload.encode())
         print payload
 
     def parseCommand(self, command):
@@ -50,14 +41,15 @@ class SpotifyController(Caster,Seizer):
             if command.split(" ")[1] == "morning":
                 self.playPlaylist(self.morningMusic)
             elif command.split(" ")[1] == "afternoon":
-                self.playPlaylist(self.afternoonMusic):
+                self.playPlaylist(self.afternoonMusic)
             elif command.split(" ")[1] == "evening":
                 self.playPlaylist(self.eveningMusic)
 
         elif command == "pause":
             self.pause()
         else:
-            print "Unrecognised command"
+            print "Unrecognised command: "
+            print command
 
     def getPlayInfo(self):
         return  self.spotifyConnection.getTrackInfo()

@@ -9,14 +9,6 @@ import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 
 
-def lookup(k, d):
-    if k in d: return d[k]
-    for v in d.values():
-        if isinstance(v, dict):
-            a = lookup(k, v)
-            if a is not None: return a
-    return None
-
 class SpotifyConnection():
 
     def __init__(self):
@@ -38,6 +30,7 @@ class SpotifyConnection():
             self.playLists[pl['name']] = pl['uri']
 
     def playPlaylist(self,playlistName):
+        self.sp.shuffle(True, device_id=self.stevensEchoId)
         playlistResult = self.playLists[playlistName]
         self.sp.start_playback(device_id=self.stevensEchoId, context_uri=playlistResult, uris=None, offset=None)
 
@@ -45,6 +38,7 @@ class SpotifyConnection():
         self.sp.start_playback(device_id=self.stevensEchoId)
 
     def pause(self):
+        print "Pausing"
         self.sp.pause_playback(device_id=self.stevensEchoId)
 
     def getTrackInfo(self):
@@ -55,22 +49,13 @@ class SpotifyConnection():
             self.sp = spotipy.Spotify(auth=self.token)
             trackInfo = self.sp.current_user_playing_track()
 
-        progress = lookup('progress_ms',trackInfo)
-        duration = lookup('duration_ms',trackInfo)
-        progress = {'song' : 'test', 'artist' : 'testArtist', 'progress' : '100'}
-        #artist   = lookup('name',lookup('artists',trackInfo))
-        #song
-        return progress
+        song = trackInfo['item']['name']
+        artist = trackInfo['item']['artists'][0]['name']
+        progress = float(trackInfo['progress_ms'])
+        duration = float(trackInfo['item']['duration_ms'])
+        percentage = str(int(progress/duration*100))
+        return {'song' : song, 'artist' : artist, 'progress' : percentage}
 
-
-#results = sp.current_user_saved_tracks()
-#            for item in results['items']:
-#                track = item['track']
-#                print track['name'] + ' - ' + track['artists'][0]['name']
-#            user = sp.user(username)
-#            print(user)
-#            print sp.devices()
-#            sp.start_playback(device_id=)
 
 
 
