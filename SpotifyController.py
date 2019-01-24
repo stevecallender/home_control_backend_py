@@ -32,7 +32,6 @@ class SpotifyController(Caster,Seizer):
     def handlePlayInfo(self, infoDict):
         payload = infoDict['song'] +'::'+infoDict['artist']+'::'+infoDict['progress'] 
         self.cast(payload.encode())
-        print payload
 
     def parseCommand(self, command):
         if command == "play":
@@ -47,9 +46,6 @@ class SpotifyController(Caster,Seizer):
 
         elif command == "pause":
             self.pause()
-        else:
-            print "Unrecognised command: "
-            print command
 
     def getPlayInfo(self):
         return  self.spotifyConnection.getTrackInfo()
