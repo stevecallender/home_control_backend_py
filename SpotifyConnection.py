@@ -17,6 +17,8 @@ class SpotifyConnection():
         self.username =  "Flatpi"
         self.token = util.prompt_for_user_token(self.username, self.scopes)
         self.playLists = {}
+        self.tokenExpiration = "tokenExpiration"
+        self.badGateway = "badGateway"
 
         if self.token:
             self.sp = spotipy.Spotify(auth=self.token)
@@ -25,29 +27,38 @@ class SpotifyConnection():
         self.populatePlaylists()
 
     def populatePlaylists(self):
-        playlists = self.sp.user_playlists(self.username)['items']
-        for pl in playlists:
-            self.playLists[pl['name']] = pl['uri']
+        try:
+            playlists = self.sp.user_playlists(self.username)['items']
+            for pl in playlists:
+                self.playLists[pl['name']] = pl['uri']
+        except spotify.client.SpotifyException:
+            self.fixMyError(self.badGateway,self.populatePlaylists)
 
     def playPlaylist(self,playlistName):
-        self.sp.shuffle(True, device_id=self.stevensEchoId)
-        playlistResult = self.playLists[playlistName]
-        self.sp.start_playback(device_id=self.stevensEchoId, context_uri=playlistResult, uris=None, offset=None)
+        try:
+            self.sp.shuffle(True, device_id=self.stevensEchoId)
+            playlistResult = self.playLists[playlistName]
+            self.sp.start_playback(device_id=self.stevensEchoId, context_uri=playlistResult, uris=None, offset=None)
+        except spotify.client.SpotifyException:
+            self.fixMyError(self.badGateway,self.playPlaylist(playlistName))
 
     def play(self):
-        self.sp.start_playback(device_id=self.stevensEchoId)
+        try:
+            self.sp.start_playback(device_id=self.stevensEchoId)
+        except spotify.client.SpotifyException:
+            self.fixMyError(self.badGateway,self.play)
 
     def pause(self):
-        print "Pausing"
-        self.sp.pause_playback(device_id=self.stevensEchoId)
+        try:
+            self.sp.pause_playback(device_id=self.stevensEchoId)
+        except spotify.client.SpotifyException:
+            self.fixMyError(self.badGateway,self.pause)
 
     def getTrackInfo(self):
         try:
             trackInfo = self.sp.current_user_playing_track()
         except spotipy.client.SpotifyException:
-            self.token = util.prompt_for_user_token(self.username, self.scopes)
-            self.sp = spotipy.Spotify(auth=self.token)
-            trackInfo = self.sp.current_user_playing_track()
+            self.fixMyError(self.TokenExipiration,self.getTrackInfo())
 
         song = trackInfo['item']['name']
         artist = trackInfo['item']['artists'][0]['name']
@@ -57,5 +68,14 @@ class SpotifyConnection():
         return {'song' : song, 'artist' : artist, 'progress' : percentage}
 
 
-
+    def fixMyError(self,error,functionToRetry):
+        if (error == self.tokenExpiration):
+            self.token = util.prompt_for_user_token(self.username, self.scopes)
+            self.sp = spotipy.Spotify(auth=self.token)
+            "Token expired re-auth"
+        elif (error == self.badGateway):
+            print "Bad gateway retrying func"
+        else:
+            print "Unhandled error"
+        functionToRetry()
 

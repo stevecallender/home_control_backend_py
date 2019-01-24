@@ -11,7 +11,7 @@ class SpotifyController(Caster,Seizer):
         ownIdentifier = "MediaInfo"
         interestedIdentifiers = ["MediaCommand"]
         super(SpotifyController,self).__init__()
-        self.configureSeizer(interestedIdentifiers,True)  
+        self.configureSeizer(interestedIdentifiers,False)  
         self.configureCaster(ownIdentifier,True)        
         self.morningMusic   = "Spoon City"
         self.eveningMusic   = "Lax"
