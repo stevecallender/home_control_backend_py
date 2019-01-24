@@ -40,7 +40,7 @@ class SpotifyConnection():
             playlistResult = self.playLists[playlistName]
             self.sp.start_playback(device_id=self.stevensEchoId, context_uri=playlistResult, uris=None, offset=None)
         except spotify.client.SpotifyException:
-            self.fixMyError(self.badGateway,self.playPlaylist(playlistName))
+            self.fixMyError(self.badGateway,self.playPlaylist,playlistName)
 
     def play(self):
         try:
@@ -58,7 +58,7 @@ class SpotifyConnection():
         try:
             trackInfo = self.sp.current_user_playing_track()
         except spotipy.client.SpotifyException:
-            self.fixMyError(self.TokenExipiration,self.getTrackInfo())
+            self.fixMyError(self.tokenExpiration,self.getTrackInfo)
 
         song = trackInfo['item']['name']
         artist = trackInfo['item']['artists'][0]['name']
@@ -68,7 +68,7 @@ class SpotifyConnection():
         return {'song' : song, 'artist' : artist, 'progress' : percentage}
 
 
-    def fixMyError(self,error,functionToRetry):
+    def fixMyError(self,error,functionToRetry,arg=None):
         if (error == self.tokenExpiration):
             self.token = util.prompt_for_user_token(self.username, self.scopes)
             self.sp = spotipy.Spotify(auth=self.token)
@@ -77,5 +77,7 @@ class SpotifyConnection():
             print "Bad gateway retrying func"
         else:
             print "Unhandled error"
-        functionToRetry()
-
+        if (arg):
+            functionToRetry(arg)
+        else:
+            functionToRetry()
