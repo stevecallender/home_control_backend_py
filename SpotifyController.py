@@ -30,8 +30,9 @@ class SpotifyController(Caster,Seizer):
         self.spotifyConnection.pause()
     
     def handlePlayInfo(self, infoDict):
-        payload = infoDict['song'] +'::'+infoDict['artist']+'::'+infoDict['progress'] 
-        self.cast(payload.encode())
+        if infoDict:
+            payload = infoDict['song'] +'::'+infoDict['artist']+'::'+infoDict['progress'] 
+            self.cast(payload.encode('ascii','ignore'))
 
     def parseCommand(self, command):
         if command == "play":

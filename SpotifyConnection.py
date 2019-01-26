@@ -31,7 +31,7 @@ class SpotifyConnection():
             playlists = self.sp.user_playlists(self.username)['items']
             for pl in playlists:
                 self.playLists[pl['name']] = pl['uri']
-        except spotify.client.SpotifyException:
+        except spotipy.client.SpotifyException:
             self.fixMyError(self.badGateway,self.populatePlaylists)
 
     def playPlaylist(self,playlistName):
@@ -39,32 +39,37 @@ class SpotifyConnection():
             self.sp.shuffle(True, device_id=self.stevensEchoId)
             playlistResult = self.playLists[playlistName]
             self.sp.start_playback(device_id=self.stevensEchoId, context_uri=playlistResult, uris=None, offset=None)
-        except spotify.client.SpotifyException:
+        except spotipy.client.SpotifyException:
             self.fixMyError(self.badGateway,self.playPlaylist,playlistName)
 
     def play(self):
         try:
             self.sp.start_playback(device_id=self.stevensEchoId)
-        except spotify.client.SpotifyException:
+        except spotipy.client.SpotifyException:
             self.fixMyError(self.badGateway,self.play)
 
     def pause(self):
         try:
             self.sp.pause_playback(device_id=self.stevensEchoId)
-        except spotify.client.SpotifyException:
+        except spotipy.client.SpotifyException:
             self.fixMyError(self.badGateway,self.pause)
 
     def getTrackInfo(self):
         try:
             trackInfo = self.sp.current_user_playing_track()
+            if trackInfo:
+                song = trackInfo['item']['name']
+                artist = trackInfo['item']['artists'][0]['name']
+                progress = float(trackInfo['progress_ms'])
+                duration = float(trackInfo['item']['duration_ms'])
+                percentage = str(int(progress/duration*100))
+            else:
+                return None
         except spotipy.client.SpotifyException:
             self.fixMyError(self.tokenExpiration,self.getTrackInfo)
+            return None
 
-        song = trackInfo['item']['name']
-        artist = trackInfo['item']['artists'][0]['name']
-        progress = float(trackInfo['progress_ms'])
-        duration = float(trackInfo['item']['duration_ms'])
-        percentage = str(int(progress/duration*100))
+
         return {'song' : song, 'artist' : artist, 'progress' : percentage}
 
 
