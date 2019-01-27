@@ -3,41 +3,48 @@ from Seizing import *
 import subprocess
 import time
 import sys
-from SpotifyConnection import * 
+from SpotifyConnection import *
 
 class SpotifyController(Caster,Seizer):
-    
+
     def __init__(self):
         ownIdentifier = "MediaInfo"
         interestedIdentifiers = ["MediaCommand"]
         super(SpotifyController,self).__init__()
-        self.configureSeizer(interestedIdentifiers,True)  
-        self.configureCaster(ownIdentifier,True)        
+        self.configureSeizer(interestedIdentifiers,True)
+        self.configureCaster(ownIdentifier,True)
         self.morningMusic   = "Spoon City"
         self.eveningMusic   = "Lax"
-        self.afternoonMusic = "Lax" 
+        self.afternoonMusic = "Lax"
+        self.isPlaying = False
         self.spotifyConnection = SpotifyConnection()
-        
 
 
     def playPlaylist(self,playlist):
-        self.spotifyConnection.playPlaylist(playlist)
+        if not self.isPlaying:
+            self.spotifyConnection.playPlaylist(playlist)
+            self.isPlaying = True
 
     def play(self):
-        self.spotifyConnection.play()
+        if not self.isPlaying:
+            self.spotifyConnection.play()
+            self.isPlaying = True
 
     def pause(self):
-        self.spotifyConnection.pause()
-    
+        if self.isPlaying:
+            self.spotifyConnection.pause()
+            self.isPlaying = False
+
     def handlePlayInfo(self, infoDict):
         if infoDict:
-            payload = infoDict['song'] +'::'+infoDict['artist']+'::'+infoDict['progress'] 
+            self.isPlaying = infoDict['status']
+            payload = infoDict['song'] +'::'+infoDict['artist']+'::'+infoDict['progress']
             self.cast(payload.encode('ascii','ignore'))
 
     def parseCommand(self, command):
         if command == "play":
             self.play()
-        elif command.split(" ")[0] == "playPlaylist": 
+        elif command.split(" ")[0] == "playPlaylist":
             if command.split(" ")[1] == "morning":
                 self.playPlaylist(self.morningMusic)
             elif command.split(" ")[1] == "afternoon":
