@@ -1,23 +1,21 @@
 #!/bin/sh
 
-#music playing
-#mopidy &
-#sleep 30
-#python python_workspace/home_control_backend_py/MediaPlayer.py &
-#amixer sset 'Master' 50% &
-
-
 #home control
-#python python_workspace/home_control_backend_py/TimeMonitor.py &
-#sleep 10
-python python_workspace/home_control_backend_py/PlugDriver.py &
-#sleep 10
-#python python_workspace/home_control_backend_py/HomeController.py &
-#sleep 10
-#python python_workspace/home_control_backend_py/NetworkMonitor.py &
 
-#node
-sleep 10
-#cd HAP-NodeJS
-#sudo rm -rf perist
-#sudo node Core.js
+if screen -ls; then
+   echo "Screens alread running"
+else
+   export SPOTIPY_CLIENT_ID='1f805d75e5ab462180b4416107973369'
+   export SPOTIPY_CLIENT_SECRET='368d4efe759b43febb2df6ca9a2432a3'
+   export SPOTIPY_REDIRECT_URI='http://localhost/'
+
+   sudo rm -rf /home/pi/HAP-NodeJS/persist
+
+   screen -S Node -dm sudo node /home/pi/HAP-NodeJS/Core.js
+   screen -S Time -dm python /home/pi/python_workspace/home_control_backend_py/TimeMonitor.py
+   screen -S Weather -dm python /home/pi/python_workspace/home_control_backend_py/WeatherMonitor.py
+   screen -S Home -dm python /home/pi/python_workspace/home_control_backend_py/HomeController.py
+   screen -S Network -dm python /home/pi/python_workspace/home_control_backend_py/NetworkMonitor.py
+   screen -S Spotify -dm python /home/pi/python_workspace/home_control_backend_py/SpotifyController.py
+fi
+

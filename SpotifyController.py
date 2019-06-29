@@ -64,7 +64,7 @@ class SpotifyController(Caster,Seizer):
             self.parseCommand(payload)
             out = self.getPlayInfo()
             self.handlePlayInfo(out)
-            time.sleep(3)
+            time.sleep(10)
 
 
 if __name__ == "__main__":
