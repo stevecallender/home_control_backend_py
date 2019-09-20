@@ -15,7 +15,6 @@ class AlexaConnection(Caster):
                 if f.mode == "r":
                     access_secret = f.read()
                 print acces_secret
-                #access_secret = "3L5DFzTHBqKcYcljBBms2se0kybRpE/pvqYorltg"
                 region ="us-east-2"
                 self.queue_url = "https://sqs.us-east-2.amazonaws.com/342494801263/HomeControlCommands.fifo"
                 self.client = boto3.client('sqs', aws_access_key_id = access_key, aws_secret_access_key = access_secret, region_name = region)
