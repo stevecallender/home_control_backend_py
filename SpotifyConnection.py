@@ -50,6 +50,7 @@ class SpotifyConnection():
         try:
             self.retryThreshold = 100
             self.sp.shuffle(True, device_id=self.stevensEchoId)
+            self.sp.volume(50, device_id=self.stevensEchoId)
             playlistResult = self.playLists[playlistName]
             self.sp.start_playback(device_id=self.stevensEchoId, context_uri=playlistResult, uris=None, offset=None)
         except spotipy.client.SpotifyException:
