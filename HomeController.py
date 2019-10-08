@@ -35,7 +35,7 @@ class HomeController(Seizer,Caster):
 		self.lastTimeUpdate = payload
 
 		if payload == "weekday early morning":
-			self.castWithHeader("MediaCommand","playPlaylist morning")
+			self.castWithHeader("MediaCommand","playPlaylist earlyMorning")
 			self.castWithHeader("LightsCommand","allOn")
 			self.shouldReact = True
 	
