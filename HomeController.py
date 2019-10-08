@@ -40,7 +40,7 @@ class HomeController(Seizer,Caster):
 			self.shouldReact = True
 	
 		elif  payload == "weekday morning":
-			self.castWithHeader("MediaCommand","playPlaylist radio")
+			self.castWithHeader("MediaCommand","playPlaylist morning")
 			self.shouldReact = True
 
 		

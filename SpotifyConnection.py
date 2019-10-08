@@ -46,11 +46,17 @@ class SpotifyConnection():
         except spotipy.client.SpotifyException:
             self.fixMyError(self.badGateway,self.populatePlaylists)
 
-    def playPlaylist(self,playlistName,playVolume):
+    def volume(self,value):
+        try:
+            self.retryThreshold = 100
+            self.sp.volume(value,device_id=self.stevensEchoId)
+        except spotipy.client.SpotifyException:
+            self.fixMyError(self.badGateway,self.volume)
+
+    def playPlaylist(self,playlistName):
         try:
             self.retryThreshold = 100
             self.sp.shuffle(True, device_id=self.stevensEchoId)
-            self.sp.volume(playVolume, device_id=self.stevensEchoId)
             playlistResult = self.playLists[playlistName]
             self.sp.start_playback(device_id=self.stevensEchoId, context_uri=playlistResult, uris=None, offset=None)
         except spotipy.client.SpotifyException:
