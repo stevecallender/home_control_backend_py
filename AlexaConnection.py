@@ -10,11 +10,10 @@ class AlexaConnection(Caster):
                 super(AlexaConnection,self).__init__()           
                 self.configureCaster(ownIdentifier,True)
                 f= open("AlexaKey","r")
-                access_key = "AKIAU7PSH5VX23QZ6X7Q"
+                access_key = "AKIAU7PSH5VX2SM4HM7E"
                 access_secret = ""
                 if f.mode == "r":
-                    access_secret = f.read()
-                print acces_secret
+                    access_secret = f.read()[:-1]
                 region ="us-east-2"
                 self.queue_url = "https://sqs.us-east-2.amazonaws.com/342494801263/HomeControlCommands.fifo"
                 self.client = boto3.client('sqs', aws_access_key_id = access_key, aws_secret_access_key = access_secret, region_name = region)
