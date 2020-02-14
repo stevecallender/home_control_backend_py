@@ -20,9 +20,9 @@ class SpotifyController(Caster,Seizer):
         self.spotifyConnection = SpotifyConnection()
 
 
-    def playPlaylist(self,playlist):
+    def playPlaylist(self,playlist,roomToPlay):
         if not self.isPlaying:
-            self.spotifyConnection.playPlaylist(playlist)
+            self.spotifyConnection.playPlaylist(playlist,roomToPlay)
             self.isPlaying = True
 
     def play(self):
@@ -47,14 +47,14 @@ class SpotifyController(Caster,Seizer):
         elif command.split(" ")[0] == "playPlaylist":
             if command.split(" ")[1] == "earlyMorning":
                 self.spotifyConnection.volume(50)
-                self.playPlaylist(self.morningMusic)
+                self.playPlaylist(self.morningMusic,"bedroom")
             elif command.split(" ")[1] == "morning":
                 self.spotifyConnection.volume(25)
-                self.playPlaylist(self.morningMusic)
+                self.playPlaylist(self.morningMusic,"livingRoom")
             elif command.split(" ")[1] == "afternoon":
-                self.playPlaylist(self.afternoonMusic)
+                self.playPlaylist(self.afternoonMusic,"livingRoom")
             elif command.split(" ")[1] == "evening":
-                self.playPlaylist(self.eveningMusic)
+                self.playPlaylist(self.eveningMusic,"livingRoom")
 
         elif command == "pause":
             self.pause()
