@@ -15,6 +15,7 @@ class SpotifyConnection():
         self.scopes = 'user-library-read user-modify-playback-state user-read-playback-state'
         self.stevensEchoId = ''
         self.stevensDotId = ''
+        self.everywhere = ''
         self.username =  "Flatpi"
         self.token = util.prompt_for_user_token(self.username, self.scopes)
         self.playLists = {}
@@ -35,10 +36,10 @@ class SpotifyConnection():
             for device in self.sp.devices()['devices']:
                 if device['name'] == 'Steven\'s Echo':
                     self.stevensEchoId = device['id']
-                    break
                 elif device['name'] == 'Steven\'s Echo Dot':
                     self.stevensDotId = device['id']
-                    break
+                elif device['name'] == 'Everywhere':
+                    self.everywhere = device['id']
 
         except spotipy.client.SpotifyException:
             self.fixMyError(self.badGateway,self.getDevices)
@@ -51,23 +52,28 @@ class SpotifyConnection():
         except spotipy.client.SpotifyException:
             self.fixMyError(self.badGateway,self.populatePlaylists)
 
-    def volume(self,value):
+    def volume(self,value,roomToPlay):
         try:
-            self.retryThreshold = 100
-            self.sp.volume(value,device_id=self.stevensEchoId)
-        except spotipy.client.SpotifyException:
-            self.fixMyError(self.badGateway,self.volume)
-
-    def playPlaylist(self,playlistName,roomToPlay):
-        try:
-            deviceToPlay = self.stevensEchoId
+            deviceToPlay = self.everywhere
             if (roomToPlay == "bedroom"):
                 deviceToPlay = self.stevensDotId
             self.retryThreshold = 100
-            self.sp.shuffle(True, device_id=deviceToPlay)
+            self.sp.volume(value,device_id=deviceToPlay)
+        except spotipy.client.SpotifyException:
+            self.fixMyError(self.badGateway,self.volume,roomToPlay)
+
+    def playPlaylist(self,playlistName,roomToPlay):
+        try:
+            deviceToPlay = self.everywhere
+            if (roomToPlay == "bedroom"):
+                deviceToPlay = self.stevensDotId
+            self.retryThreshold = 100
             playlistResult = self.playLists[playlistName]
             self.sp.start_playback(device_id=deviceToPlay, context_uri=playlistResult, uris=None, offset=None)
-        except spotipy.client.SpotifyException:
+            self.sp.shuffle(True, device_id=deviceToPlay)
+
+        except spotipy.client.SpotifyException as e:
+            print e
             self.fixMyError(self.badGateway,self.playPlaylist,playlistName,roomToPlay)
 
     def play(self):
@@ -94,7 +100,6 @@ class SpotifyConnection():
                 artist = trackInfo['item']['artists'][0]['name']
                 progress = float(trackInfo['progress_ms'])
                 status = trackInfo['is_playing']
-                print "Connetion: " + str(status)
                 duration = float(trackInfo['item']['duration_ms'])
                 percentage = str(int(progress/duration*100))
             else:
