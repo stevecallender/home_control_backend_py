@@ -60,7 +60,7 @@ class SpotifyConnection():
             self.retryThreshold = 100
             self.sp.volume(value,device_id=deviceToPlay)
         except spotipy.client.SpotifyException:
-            self.fixMyError(self.badGateway,self.volume,roomToPlay)
+            self.fixMyError(self.badGateway,self.volume,value,roomToPlay)
 
     def playPlaylist(self,playlistName,roomToPlay):
         try:
@@ -113,6 +113,7 @@ class SpotifyConnection():
 
 
     def fixMyError(self,error,functionToRetry,arg=None,arg1=None):
+	time.sleep(1)
         if (self.retryThreshold >= 0):
             if (error == self.tokenExpiration):
                 self.token = util.prompt_for_user_token(self.username, self.scopes)
