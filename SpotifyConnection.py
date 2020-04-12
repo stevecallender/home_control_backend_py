@@ -60,7 +60,8 @@ class SpotifyConnection():
             self.retryThreshold = 100
             self.sp.volume(value,device_id=deviceToPlay)
         except spotipy.client.SpotifyException:
-            self.fixMyError(self.badGateway,self.volume,value,roomToPlay)
+            print "Another volume error..."
+#            self.fixMyError(self.badGateway,self.volume,value,roomToPlay)
 
     def playPlaylist(self,playlistName,roomToPlay):
         try:
