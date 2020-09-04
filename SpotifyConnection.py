@@ -121,6 +121,8 @@ class SpotifyConnection():
                 self.sp = spotipy.Spotify(auth=self.token)
                 print "Token expired re-auth"
             elif (error == self.badGateway):
+                self.token = util.prompt_for_user_token(self.username, self.scopes)
+                self.sp = spotipy.Spotify(auth=self.token)
                 print "Bad gateway retrying func"
             else:
                 print "Unhandled error"
