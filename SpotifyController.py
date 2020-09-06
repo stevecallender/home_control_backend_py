@@ -17,7 +17,7 @@ class SpotifyController(Caster,Seizer):
         self.eveningMusic   = "Lax"
         self.afternoonMusic = "Lax"
         self.isPlaying = False
-        self.shouldPoll = False
+        self.shouldPoll = True
         self.spotifyConnection = SpotifyConnection()
 
     def playPlaylist(self,playlist,roomToPlay):

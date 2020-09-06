@@ -114,7 +114,7 @@ class SpotifyConnection():
 
 
     def fixMyError(self,error,functionToRetry,arg=None,arg1=None):
-	time.sleep(1)
+	time.sleep(60)
         if (self.retryThreshold >= 0):
             if (error == self.tokenExpiration):
                 self.token = util.prompt_for_user_token(self.username, self.scopes)
@@ -126,6 +126,8 @@ class SpotifyConnection():
                 print "Bad gateway retrying func"
             else:
                 print "Unhandled error"
+
+
             if (arg and not arg1):
                 functionToRetry(arg)
             elif (arg and arg1):
