@@ -46,11 +46,11 @@ class SpotifyController(Caster,Seizer):
             self.play()
         elif command.split(" ")[0] == "playPlaylist":
             if command.split(" ")[1] == "earlyMorning":
-                self.spotifyConnection.volume(20,'bedroom')
+#                self.spotifyConnection.volume(20,'bedroom')
                 self.playPlaylist(self.morningMusic,"bedroom")
 		print "early morning"
             elif command.split(" ")[1] == "morning":
-                self.spotifyConnection.volume(15,'everywhere')
+#                self.spotifyConnection.volume(15,'everywhere')
                 self.playPlaylist(self.morningMusic,"everywhere")
             elif command.split(" ")[1] == "afternoon":
                 self.playPlaylist(self.afternoonMusic,"everywhere")

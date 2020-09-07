@@ -27,7 +27,7 @@ class TimeMonitor(Caster):
 					self.cast("weekend night")
 			# WEEKDAY
 			else:
-				if currentTime.hour == 6 and currentTime.minute == 45:
+				if currentTime.hour == 6 and (currentTime.minute >= 44):
 					self.cast("weekday early morning")
 				elif currentTime.hour >= 7 and currentTime.hour <= 11:
 					self.cast("weekday morning")
