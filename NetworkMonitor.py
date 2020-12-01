@@ -16,7 +16,7 @@ class NetworkMonitor(Caster):
 	def run(self):
 	
 		EMMA_MAC = "84:AB:1A:23:0F:C0"
-		STEVE_MAC= "58:40:4e:3e:d0:5f"
+		STEVE_MAC= "06:31:5b:45:49:75"
 
 		emmaIp = ""
 		steveIp = ""
@@ -30,7 +30,7 @@ class NetworkMonitor(Caster):
 	
 	
 		while True:
-			time.sleep(4)
+			time.sleep(5)
 			print "Steve threshold"
                         print steveThreshold
 			print "Emma threshold:"
@@ -41,9 +41,8 @@ class NetworkMonitor(Caster):
 			emmaDetected = False
 			emmaIp = self.getIpFromMac(EMMA_MAC)
 			steveIp = self.getIpFromMac(STEVE_MAC)
-			(out, err) = subprocess.Popen(["fping -m -g 192.168.1.100 192.168.1.105"], stdout=subprocess.PIPE, shell=True).communicate()
+			(out, err) = subprocess.Popen(["fping -m -g 192.168.1.100 192.168.1.110"], stdout=subprocess.PIPE, shell=True).communicate()
 			for row in out.split("\n"):
-				print "ROW " + row
 				if row.find(emmaIp) > -1 and row.find("alive") > -1:
 					emmaDetected = True
 					print "Emma ip " +emmaIp
